@@ -1,7 +1,7 @@
 
 
 class Board():
-    ''' Siam Bord object
+    ''' Siam Board object
 
 
     '''
