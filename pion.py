@@ -10,4 +10,3 @@ class Pion():
         Crée un pion aux coordonnées désirées
         '''
         self.coords = abscisse, ordonnee
-    
