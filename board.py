@@ -1,14 +1,18 @@
-import numpy
+import numpy as np
 
-class Board():
-    '''
+class Board(np.ndarray):
+    """
+    Classe représentant le plateau de jeu et gérant le déroulement de la partie
+    """
 
-    Classe représentant le plateau de jeuet gérant le déroulement de la partie
-
-    '''
-    def __init__(self,size=(5,5)):
+    def __new__(self,size):
         """
         size tuple represent the size of the board game.
         """
 
-        self.width, self.height = size
+        super().__init__(size, dtype=object)
+
+test = Board((5,5))
+print(test)
+
+#print(np.ndarray((5,5), dtype=object))
