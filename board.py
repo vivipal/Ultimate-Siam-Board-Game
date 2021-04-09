@@ -1,9 +1,6 @@
 import numpy as np
 
-class Board(np.ndarray):
-    """
-    Classe représentant le plateau de jeu et gérant le déroulement de la partie
-    """
+class Board(np.ndarray): 
 
     def __new__(self,size):
         """
