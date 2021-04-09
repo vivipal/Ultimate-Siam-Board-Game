@@ -1,6 +1,6 @@
 import numpy as np
 
-class Board(np.ndarray): 
+class Board(np.ndarray):
     '''
 
     Classe représentant le plateau de jeuet gérant le déroulement de la partie
@@ -12,3 +12,21 @@ class Board(np.ndarray):
         """
 
         self.width, self.height = size
+
+
+
+import numpy as np
+
+
+class C(np.ndarray):
+
+
+
+    def __init__(self,t,dtype):
+        super().__init__()
+
+
+
+a=C((5,5),dtype=object)
+
+print(a)

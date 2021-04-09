@@ -8,7 +8,6 @@ class Pion():
         '''
         Crée un pion aux coordonnées désirées
         '''
-<<<<<<< HEAD
         self.__coords = x, y
 
     @property
@@ -116,6 +115,3 @@ class Elephant(Animal):
     def __init__(self,x,y,orientation):
 
         super().__init__(x,y,orientation,'E')
-=======
-        self.coords = abscisse, ordonnee
->>>>>>> 7f9421c7c8370b7218709aeedf19b9d3579a4d22
