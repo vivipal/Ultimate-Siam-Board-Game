@@ -24,7 +24,8 @@ class Board(np.ndarray):
 
         return view
 
-    def move(animal, direction):
+
+    def check(animal, direction):
         """
         bouge un ou plusieurs animaux dans une direction spécifique si cela est possible
         """
@@ -35,7 +36,10 @@ class Board(np.ndarray):
         c_contre = 0
         c_rocher = 0
         i = 1
-        sens = -1 + (animal.direction=="E" or animal.direction=="S")*2   # valeur d'incrémentation, 1 si vers Nord ou Est, -1 si vers Sud ou Ouest
+        # sens = -1 + (animal.ortientation=="E" or animal.orientation=="S")*2   # valeur d'incrémentation, 1 si vers Nord ou Est, -1 si vers Sud ou Ouest
+        #
+        # if animal.orientation=="N" or animal.orientation=="S":
+        #     while 0 <= y+sens*i <= 4 and self[x,y+sens*i]!=None:
 
-        if direction=="N" or direction=="S":
-            while 0 <= y+sens*i <= 4 and self[x,y+sens*i]!=None:
+
+    def 
