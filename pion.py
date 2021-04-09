@@ -1,10 +1,12 @@
+from board import Board
+
 
 class Pion():
     '''
     Classe décrivant les pions (Elephant, Rhino, Caillou)
     '''
 
-    def __init__(self, abscisse, ordonnee):
+    def __init__(self, x, y):
         '''
         Crée un pion aux coordonnées désirées
         '''
@@ -104,6 +106,8 @@ class Rhino(Animal):
     def __init__(self,x,y,orientation):
 
         super().__init__(x,y,orientation,'R')
+
+
 
 
 class Elephant(Animal):
