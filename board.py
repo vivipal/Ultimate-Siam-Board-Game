@@ -1,6 +1,6 @@
-import numpy
+import numpy as np
 
-class Board():
+class Board(np.ndarray): 
     '''
 
     Classe représentant le plateau de jeuet gérant le déroulement de la partie
