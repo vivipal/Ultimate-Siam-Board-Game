@@ -61,7 +61,7 @@ class Animal(Pion):
     Classe representatn les Animaux (Rhino/Elephant)
     '''
 
-    def __init__(self,x,y,espece,orientation ):
+    def __init__(self,x,y,orientation,espece):
 
         '''
         ----------
@@ -85,3 +85,33 @@ class Animal(Pion):
 
         self.__orientation = orientation
         self.espece = espece
+
+    @property
+    def orientation(self):
+        return self.__orientation
+
+
+    @orientation.setter
+    def orientation(self,new_orientation):
+        self.__orientation = new_orientation
+
+class Rhino(Animal):
+
+    '''
+    Classe representant les Rhinoceros
+    '''
+
+    def __init__(self,x,y,orientation):
+
+        super().__init__(x,y,orientation,'R')
+
+
+class Elephant(Animal):
+
+    '''
+    Classe representant les Elephant
+    '''
+
+    def __init__(self,x,y,orientation):
+
+        super().__init__(x,y,orientation,'E')
