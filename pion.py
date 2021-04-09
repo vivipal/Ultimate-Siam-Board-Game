@@ -44,6 +44,18 @@ class Pion():
         """
         return self.coords[1]
 
+    def move(self, direction):
+        old_x = self.x
+        old_y = self.y
+        if direction == 0:
+            self.y = old_y- 1
+        elif direction == 180:
+            self.y = old_y + 1
+        elif direction == 90:
+            self.x = old_x + 1
+        else:
+            self.x = old_x - 1
+
 
 
 class Rocher(Pion):
@@ -77,7 +89,7 @@ class Animal(Pion):
             'R' pour un Rhino
             'E' pour un Elephant
         orientation: caractere
-            'N','S','E','O' pour respectivement nord, sud, est ,ouest
+            0, 180, 90, 270 pour respectivement nord, sud, est ,ouest
 
         ----------
         '''
@@ -88,6 +100,7 @@ class Animal(Pion):
         self.__orientation = orientation
         self.espece = espece
 
+
     @property
     def orientation(self):
         return self.__orientation
@@ -96,6 +109,11 @@ class Animal(Pion):
     @orientation.setter
     def orientation(self,new_orientation):
         self.__orientation = new_orientation
+
+
+    def turn(self, new_orientation):
+        self.orientation = new_orientation
+
 
 class Rhino(Animal):
 
