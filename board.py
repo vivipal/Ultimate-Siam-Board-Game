@@ -14,20 +14,20 @@ class Board(np.ndarray):
 
     def __str__(self):
         """
-        affichage sipmifié du plateau de jjeu et
+        affichage simplifié du plateau de jeu
         """
         view = self[:]
         view[type(view) == pion.Rhino] = "R"
         view[type(view) == pion.Elephant] = "E"
         view[type(view) == pion.Rocher] = "O"
-        view[view=None] = ""
+        view[view==None] = ""
 
         return view
 
 
     def check(animal, direction):
         """
-        bouge un ou plusieurs animaux dans une direction spécifique si cela est possible
+        regarde si le mouvement désiré est réalisable
         """
         x = animal.x
         y = animal.y
@@ -36,10 +36,17 @@ class Board(np.ndarray):
         c_contre = 0
         c_rocher = 0
         i = 1
-        # sens = -1 + (animal.ortientation=="E" or animal.orientation=="S")*2   # valeur d'incrémentation, 1 si vers Nord ou Est, -1 si vers Sud ou Ouest
-        #
-        # if animal.orientation=="N" or animal.orientation=="S":
-        #     while 0 <= y+sens*i <= 4 and self[x,y+sens*i]!=None:
+
+        if direction == 0:
+            while 0<= y-i <=4 and self[x,y-i] != None:
+                obs = self[x,y-i]
+                if type(obs) == Rocher:
+                    c_rocher += 1
+                else:
+                    if orientation == (direction + 180) % 360 :
+                        c_contre += 1
+                    elif orientation == direction :
+                        c_pour += 1
 
 
-    def 
+    def
