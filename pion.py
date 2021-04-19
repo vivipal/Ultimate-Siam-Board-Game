@@ -20,7 +20,7 @@ class Pion():
         return self.__coords
 
     @coords.setter
-    def coords(self, nouv_coords):
+    def coords(self, new_coords):
         """
         Met à jour les coordonnées du pion
         """
@@ -36,6 +36,10 @@ class Pion():
         """
         return self.coords[0]
 
+    @x.setter
+    def x(self,new_x):
+        self.coords = (new_x,self.y)
+
     @property
     def y(self):
         """
@@ -44,14 +48,18 @@ class Pion():
         """
         return self.coords[1]
 
+    @y.setter
+    def y(self,new_y):
+        self.coords = (self.x,new_y)
+
     def move(self, direction):
         old_x = self.x
         old_y = self.y
-        if direction == 0:
+        if direction == 270:
             self.y = old_y- 1
-        elif direction == 180:
-            self.y = old_y + 1
         elif direction == 90:
+            self.y = old_y + 1
+        elif direction == 180:
             self.x = old_x + 1
         else:
             self.x = old_x - 1

@@ -31,8 +31,10 @@ class Board(np.ndarray):
                     view[i,j]='E'
                 elif type(self[i,j]) == pion.Rocher :
                     view[i,j] = 'O'
+                else:
+                    view[i,j]="  "
 
-                if view[i,j]!="":
+                if view[i,j]!="  ":
                     view[i,j]+= dir[self[i,j].orientation//90]
 
 
@@ -44,8 +46,8 @@ class Board(np.ndarray):
         compte le nombre de rhino
         """
         nb = 0
-        for pion in self:
-            if type(pion) == pion.Rhino:
+        for p in self.ravel():
+            if type(p) == pion.Rhino:
                 nb += 1
         return nb
 
@@ -54,8 +56,8 @@ class Board(np.ndarray):
         compte le nombre d'éléphant
         """
         nb = 0
-        for pion in self:
-            if type(pion) == pion.Elephant:
+        for p in self.ravel():
+            if type(p) == pion.Elephant:
                 nb += 1
         return nb
 
@@ -64,13 +66,13 @@ class Board(np.ndarray):
         compte le nombre de rocher
         """
         nb = 0
-        for pion in self:
-            if type(pion) == pion.Rocher:
+        for p in self.ravel():
+            if type(p) == pion.Rocher:
                 nb += 1
         return nb
 
 
-    def move_check(L,direction):
+    def move_check(self,L,direction):
         """
         à partir de la liste créée par move(), regarde si le mouvement demandé est possible
         """
@@ -79,6 +81,7 @@ class Board(np.ndarray):
         c_pour = 0
         c_contre = 0
         new_L = []
+
 
         for l in L:
             if l == None:
@@ -112,8 +115,12 @@ class Board(np.ndarray):
         """
         vide toutes les cases de Board (remplace par None)
         """
-        for case in self:
-            case = None
+
+        x,y = np.shape(self)
+
+        for i in range(x):
+            for j in range(y):
+                self[i,j] = None
 
 
     def update(self):
@@ -122,9 +129,9 @@ class Board(np.ndarray):
         """
         copy = self.copy()
         self.clear()
-        for pion in copy:
-            if pion != None:
-                self[pion.x, pion.y] = pion
+        for p in copy.ravel():
+            if p != None:
+                self[p.x, p.y] = p
 
 
     def move(self,animal,direction):
@@ -136,16 +143,21 @@ class Board(np.ndarray):
         y = animal.y
         size = np.shape(self)
 
-        if direction == 0:
-            L = self[ x , 0:y ].copy()
-        elif direction == 90:
-            L = self[ x:size[0] , y ].copy()
-        elif direction == 180:
-            L = self[ x , y:size[1] ].copy()
-        elif direction == 270:
-            L = self[ 0:x , y ].copy()
+        if direction == 270:
+            L = self[ x , 0:y+1][::-1].copy()
 
-        new_L, y = move_check(L, direction)
+        elif direction == 180:
+            L = self[ x:size[0]+1 , y ].copy()
+
+        elif direction == 90:
+            L = self[ x, y:size[1]+1 ].copy()
+
+        elif direction == 0:
+            L = self[ 0:x+1 , y][::-1].copy()
+
+        L=np.array(L)
+        print(L)
+        new_L, y = self.move_check(L, direction)
 
         for pion_bouge in new_L:
             pion_bouge.move(direction)
