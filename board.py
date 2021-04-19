@@ -71,6 +71,23 @@ class Board(np.ndarray):
         return new_L, y
 
 
+    def set_pion(self, pion):
+        self[pion.x, pion.y] = pion
+
+
+    def clear(self):
+        for case in self:
+            case = None
+
+
+    def update(self):
+        copy = self.copy()
+        self.clear()
+        for pion in copy:
+            if pion != None:
+                self(pion.x, pion.y) = pion
+
+
 
     def move(self,animal,direction):
         """
@@ -93,6 +110,6 @@ class Board(np.ndarray):
         new_L, y = move_check(L, direction)
 
         for pion_bouge in new_L:
-            pion_bouge.move_pion(direction)
+            pion_bouge.move(direction)
 
         self.update()
