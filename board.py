@@ -39,6 +39,19 @@ class Board(np.ndarray):
         return view.__repr__()
 
 
+    def nb_rhino(self):
+        nb = np.count_nonzero(type(self)==Rhino)
+        return nb
+
+    def nb_elephant(self):
+        nb = np.count_nonzero(type(self)==Elephant)
+        return nb
+
+    def nb_rocher(self):
+        nb = np.count_nonzero(type(self)==Rocher)
+        return nb
+
+
     def move_check(L,direction):
         """
         à partir de la liste créée par move(), regarde si le mouvement demandé est possible
@@ -93,7 +106,7 @@ class Board(np.ndarray):
         self.clear()
         for pion in copy:
             if pion != None:
-                self(pion.x, pion.y) = pion
+                self[pion.x, pion.y] = pion
 
 
     def move(self,animal,direction):
