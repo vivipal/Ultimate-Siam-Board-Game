@@ -141,6 +141,10 @@ if __name__=='__main__' :
     v=pion.Rhino(2,3,90)
     v2=pion.Rhino(2,4,0)
     v3=pion.Rhino(1,4,90)
+    u=pion.Elephant(1,0,180)
+    u2=pion.Elephant(4,4,0)
     a[2,3]=v
     a[2,4]=v2
     a[1,4]=v3
+    a[1,0]=u
+    a[4,4]=u2
