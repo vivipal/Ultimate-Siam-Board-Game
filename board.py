@@ -16,13 +16,26 @@ class Board(np.ndarray):
         """
         affichage simplifié du plateau de jeu
         """
-        view = self[:]
-        view[type(view) == pion.Rhino] = "R"
-        view[type(view) == pion.Elephant] = "E"
-        view[type(view) == pion.Rocher] = "O"
-        view[view==None] = ""
 
-        return view
+        x,y = np.shape(self)
+        view = np.empty((x,y),dtype=str)
+
+        dir = ['^','>','v','<']
+
+        for i in range(x):
+            for j in range(y):
+                if type(self[i,j]) == pion.Rhino :
+                    view[i,j]='R'
+                elif type(self[i,j]) == pion.Elephant :
+                    view[i,j]='E'
+                elif type(self[i,j]) == pion.Rocher :
+                    view[i,j] = 'O'
+
+                if view[i,j]!="":
+                    view[i,j]+= dir[self[i,j].orientation//90]
+
+
+        return view.__repr__()
 
 
     def check(animal, direction):
@@ -47,6 +60,3 @@ class Board(np.ndarray):
                         c_contre += 1
                     elif orientation == direction :
                         c_pour += 1
-
-
-    def
