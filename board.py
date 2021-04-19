@@ -72,21 +72,28 @@ class Board(np.ndarray):
 
 
     def set_pion(self, pion):
+        """
+        ajoute un pion sur le plateau de jeu
+        """
         self[pion.x, pion.y] = pion
 
-
     def clear(self):
+        """
+        vide toutes les cases de Board (remplace par None)
+        """
         for case in self:
             case = None
 
 
     def update(self):
+        """
+        met à jour Board selon les nouvelles coordonnées des pions
+        """
         copy = self.copy()
         self.clear()
         for pion in copy:
             if pion != None:
                 self(pion.x, pion.y) = pion
-
 
 
     def move(self,animal,direction):
