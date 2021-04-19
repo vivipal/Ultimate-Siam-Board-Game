@@ -40,15 +40,15 @@ class Board(np.ndarray):
 
 
     def nb_rhino(self):
-        nb = np.count_nonzero(type(self)==Rhino)
+        nb = np.count_nonzero(type(self)==pion.Rhino)
         return nb
 
     def nb_elephant(self):
-        nb = np.count_nonzero(type(self)==Elephant)
+        nb = np.count_nonzero(type(self)==pion.Elephant)
         return nb
 
     def nb_rocher(self):
-        nb = np.count_nonzero(type(self)==Rocher)
+        nb = np.count_nonzero(type(self)==pion.Rocher)
         return nb
 
 
@@ -133,3 +133,14 @@ class Board(np.ndarray):
             pion_bouge.move(direction)
 
         self.update()
+
+
+
+if __name__=='__main__' :
+    a = Board((5,5),dtype=object)
+    v=pion.Rhino(2,3,90)
+    v2=pion.Rhino(2,4,0)
+    v3=pion.Rhino(1,4,90)
+    a[2,3]=v
+    a[2,4]=v2
+    a[1,4]=v3
