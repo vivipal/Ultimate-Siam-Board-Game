@@ -18,7 +18,8 @@ class Board(np.ndarray):
         """
 
         x,y = np.shape(self)
-        view = np.empty((x,y),dtype=str)
+        view = np.empty((x,y),dtype='<U2')
+
 
         dir = ['^','>','v','<']
 
