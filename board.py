@@ -39,6 +39,9 @@ class Board(np.ndarray):
 
 
     def move_check(L,direction):
+        """
+        à partir de la liste créée par move(), regarde si le mouvement demandé est possible
+        """
 
         c_caillou = 0
         c_pour = 0
@@ -64,14 +67,15 @@ class Board(np.ndarray):
         elif c_pour - c_contre - c_caillou < 0:
             y = False
 
-        return y
+        return new_L, y
 
 
 
     def move(self,animal,direction):
         """
-        regarde si le mouvement désiré est réalisable et bouge les pions
+        fait bouger le pion dans la direction demandée, pousse les pions devant si possible
         """
+
         x = animal.x
         y = animal.y
         size = np.shape(self)
@@ -84,3 +88,10 @@ class Board(np.ndarray):
             L = self[ x , y:size[1] ].copy()
         elif direction == 270:
             L = self[ 0:x , y ].copy()
+
+        new_L, y = move_check(L, direction)
+
+        for pion_bouge in new_L:
+            pion_bouge.move_pion(direction)
+
+        self.update()
