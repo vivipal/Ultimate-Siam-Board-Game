@@ -40,15 +40,33 @@ class Board(np.ndarray):
 
 
     def nb_rhino(self):
-        nb = np.count_nonzero(type(self)==pion.Rhino)
+        """
+        compte le nombre de rhino
+        """
+        nb = 0
+        for pion in self:
+            if type(pion) == pion.Rhino:
+                nb += 1
         return nb
 
     def nb_elephant(self):
-        nb = np.count_nonzero(type(self)==pion.Elephant)
+        """
+        compte le nombre d'éléphant
+        """
+        nb = 0
+        for pion in self:
+            if type(pion) == pion.Elephant:
+                nb += 1
         return nb
 
     def nb_rocher(self):
-        nb = np.count_nonzero(type(self)==pion.Rocher)
+        """
+        compte le nombre de rocher
+        """
+        nb = 0
+        for pion in self:
+            if type(pion) == pion.Rocher:
+                nb += 1
         return nb
 
 
@@ -65,7 +83,7 @@ class Board(np.ndarray):
         for l in L:
             if l == None:
                 break
-            elif type(l) == Rocher:
+            elif type(l) == pion.Rocher:
                 c_caillou += 1
             else:
                 if l.orientation == direction:
