@@ -38,25 +38,49 @@ class Board(np.ndarray):
         return view.__repr__()
 
 
-    def check(animal, direction):
+    def move_check(L,direction):
+
+        c_caillou = 0
+        c_pour = 0
+        c_contre = 0
+        new_L = []
+
+        for l in L:
+            if l == None:
+                break
+            elif type(l) == Rocher:
+                c_caillou += 1
+            else:
+                if l.orientation == direction:
+                    c_pour += 1
+                elif l.orientation == (direction + 180) % 360:
+                    c_contre += 1
+            new_L.append(l)
+
+        y = True
+
+        if c_contre > c_pour:
+            y = False
+        elif c_pour - c_contre - c_caillou < 0:
+            y = False
+
+        return y
+
+
+
+    def move(self,animal,direction):
         """
-        regarde si le mouvement désiré est réalisable
+        regarde si le mouvement désiré est réalisable et bouge les pions
         """
         x = animal.x
         y = animal.y
-
-        c_pour = 1
-        c_contre = 0
-        c_rocher = 0
-        i = 1
+        size = np.shape(self)
 
         if direction == 0:
-            while 0<= y-i <=4 and self[x,y-i] != None:
-                obs = self[x,y-i]
-                if type(obs) == Rocher:
-                    c_rocher += 1
-                else:
-                    if orientation == (direction + 180) % 360 :
-                        c_contre += 1
-                    elif orientation == direction :
-                        c_pour += 1
+            L = self[ x , 0:y ].copy()
+        elif direction == 90:
+            L = self[ x:size[0] , y ].copy()
+        elif direction == 180:
+            L = self[ x , y:size[1] ].copy()
+        elif direction == 270:
+            L = self[ 0:x , y ].copy()
