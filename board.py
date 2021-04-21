@@ -3,7 +3,7 @@ import pion
 
 class Board(np.ndarray):
     '''
-    Classe représentant le plateau de jeu et gérant le déroulement de la partie
+    Classe représentant le plateau de jeu
     '''
 
     def __init__(self,size,dtype=object):
@@ -168,14 +168,13 @@ class Board(np.ndarray):
                 self[p.x, p.y] = p
 
 
-
-
-
 if __name__=='__main__' :
     a = Board((5,5),dtype=object)
-    a.set_pion(pion.Rhino(2,2,0))
-    a.set_pion(pion.Rhino(2,3,0))
+    a.set_pion(pion.Rhino(0,0,90))
+    a.set_pion(pion.Rhino(0,1,90))
+    a.set_pion(pion.Rocher(0,2))
+    a.set_pion(pion.Rhino(0,3,270))
     print(a)
     #a[2,2].turn(270)
-    a.move(a[2,2],90)
+    a.move(a[0,0],90)
     print(a)
