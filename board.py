@@ -15,7 +15,7 @@ class Board(np.ndarray):
         """
         affichage simplifié du plateau de jeu
         """
-
+        print("-----------------------")
         x,y = np.shape(self)
         view = np.empty((x,y),dtype='<U2')
 
@@ -29,11 +29,11 @@ class Board(np.ndarray):
                 elif type(self[i,j]) == pion.Elephant :
                     view[i,j]='E'
                 elif type(self[i,j]) == pion.Rocher :
-                    view[i,j] = 'O'
+                    view[i,j] ='##'
                 else:
                     view[i,j]="  "
 
-                if view[i,j]!="  ":
+                if view[i,j]!="  " and view[i,j]!='##':
                     view[i,j]+= dir[self[i,j].orientation//90]
 
 
@@ -75,31 +75,35 @@ class Board(np.ndarray):
         """
         fait bouger le pion dans la direction demandée, pousse les pions devant si possible
         """
+        if type(animal) == None:
+            print("t'as essayé de déplacer une case vide trouduc")
+        else:
+            x = animal.x
+            y = animal.y
+            size = np.shape(self)
 
-        x = animal.x
-        y = animal.y
-        size = np.shape(self)
+            if direction == 270:
+                L = self[ x , 0:y+1][::-1].copy()
 
-        if direction == 270:
-            L = self[ x , 0:y+1][::-1].copy()
+            elif direction == 180:
+                L = self[ x:size[0]+1 , y ].copy()
 
-        elif direction == 180:
-            L = self[ x:size[0]+1 , y ].copy()
+            elif direction == 90:
+                L = self[ x, y:size[1]+1 ].copy()
 
-        elif direction == 90:
-            L = self[ x, y:size[1]+1 ].copy()
+            elif direction == 0:
+                L = self[ 0:x+1 , y][::-1].copy()
 
-        elif direction == 0:
-            L = self[ 0:x+1 , y][::-1].copy()
+            L=np.array(L)
+            new_L, y = self.move_check(L, direction)
 
-        L=np.array(L)
-        print(L)
-        new_L, y = self.move_check(L, direction)
+            if y:
+                for pion_bouge in new_L:
+                    pion_bouge.move(direction)
+            else:
+                print("ca bouge pas C H E H")
 
-        for pion_bouge in new_L:
-            pion_bouge.move(direction)
-
-        self.update()
+            self.update()
 
     def move_check(self,L,direction):
         """
@@ -126,8 +130,9 @@ class Board(np.ndarray):
 
         y = True
 
-        if len(new_L)>=1 and new_L[0].orientation != direction
-        if c_contre > c_pour:
+        if len(new_L)>=1 and new_L[0].orientation != direction:
+            y = False
+        if c_contre >= c_pour:
             y = False
         elif c_pour - c_contre - c_caillou < 0:
             y = False
@@ -168,13 +173,9 @@ class Board(np.ndarray):
 
 if __name__=='__main__' :
     a = Board((5,5),dtype=object)
-    v=pion.Rhino(2,3,90)
-    v2=pion.Rhino(2,4,0)
-    v3=pion.Rhino(1,4,90)
-    u=pion.Elephant(1,0,180)
-    u2=pion.Elephant(4,4,0)
-    a[2,3]=v
-    a[2,4]=v2
-    a[1,4]=v3
-    a[1,0]=u
-    a[4,4]=u2
+    a.set_pion(pion.Rhino(2,2,0))
+    a.set_pion(pion.Rhino(2,3,0))
+    print(a)
+    #a[2,2].turn(270)
+    a.move(a[2,2],90)
+    print(a)
