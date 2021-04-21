@@ -27,7 +27,6 @@ class Pion():
         x, y = new_coords
         self.__coords = (x, y)
 
-
     @property
     def x(self):
         """
@@ -56,15 +55,13 @@ class Pion():
         old_x = self.x
         old_y = self.y
         if direction == 270:
-            self.y = old_y- 1
+            self.y = old_y - 1
         elif direction == 90:
             self.y = old_y + 1
         elif direction == 180:
             self.x = old_x + 1
         else:
             self.x = old_x - 1
-
-
 
 class Rocher(Pion):
 
@@ -75,7 +72,6 @@ class Rocher(Pion):
     def __init__(self,x,y):
 
         super().__init__(x, y)
-
 
 class Animal(Pion):
 
@@ -122,7 +118,6 @@ class Animal(Pion):
     def turn(self, new_orientation):
         self.orientation = new_orientation
 
-
 class Rhino(Animal):
 
     '''
@@ -132,9 +127,6 @@ class Rhino(Animal):
     def __init__(self,x,y,orientation):
 
         super().__init__(x,y,orientation,'R')
-
-
-
 
 class Elephant(Animal):
 
