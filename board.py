@@ -97,10 +97,16 @@ class Board(np.ndarray):
         if y:
             for pion_bouge in new_L:
                 pion_bouge.move(direction)
-        else:
-            print("ca bouge pas C H E H")
 
         self.update()
+
+        return new_L, y
+
+    def insert(self,animal,x,y):
+        """
+        Insère un nouveau pion sur le plateau, pousse les autres si nécessaire
+        """
+        
 
     def move_check(self,L,direction):
         """
