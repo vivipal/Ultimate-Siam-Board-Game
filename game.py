@@ -25,7 +25,7 @@ def choice():
         dsds
 
 def choice_1_coords():
-    cmd = input(What piece do you want to move ? "xy")
+    cmd = input("What piece do you want to move ? "xy"")
     x=cmd[0]
     y=cmd[1]
 
@@ -35,11 +35,14 @@ def choice_1_coords():
     elif plateau[x,y] == None:
         print("Empty, try again")
         choice_1_coords()
+    elif type(plateau[x,y]) == pion.Rocher:
+        print("Cail' Cail' Caillou, try again")
+        choice_1_coords()
     elif (type(plateau[x,y]) == pion.Rhino and j_elep == True) or (type(plateau[x,y]) == pion.Elephant and j_elep == False):
         print("Not your animal, try again")
         choice_1_coords()
     else:
-        
+        cmd2 = input("")
 
 while ingame:
     j_rhino = not j_rhino
