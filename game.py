@@ -2,48 +2,85 @@ import pion
 import board
 
 ingame = True
-j_elep = True
+tour_elep = True
 
-plateau = Board((5,5),dtype=object)     # initialisation
+plateau = board.Board((5,5),dtype=object)     # initialisation
 plateau.set_pion(pion.Rocher(2,1))
 plateau.set_pion(pion.Rocher(2,2))
 plateau.set_pion(pion.Rocher(2,3))
-print("plateau)
+print(plateau)
 
 def choice():
-    cmd = input("What do you want to do ? \n turn a piece "1" \n move and turn a piece "2" \n push pieces "3"")
+    cmd = input("What do you want to do ? \n turn a piece 1 \n move and turn a piece 2 \n push pieces 3")
 
-    if cmd == "1":
-        try :
-            choice_1_coords
-        except:
-            print()
+    try:
+        choice = int(cmd)
+    except:
+        print("Not an integer, try again")
+        choice()
 
-    elif cmd == "2":
-        sdsds
-    else:
-        dsds
+    if not (choice==1 or choice==2 or choice==3):
+        print("Incorrect input, try again")
+        choice()
 
-def choice_1_coords():
-    cmd = input("What piece do you want to move ? "xy"")
-    x=cmd[0]
-    y=cmd[1]
+    elif choice==1:
+        x,y,p = choose_piece()
+        choice_turn(x,y,p)
 
-    if x<0 or x>4 or y<0 or y>4:
-        print("Out of bounds, try again")
-        choice_1_coords()
-    elif plateau[x,y] == None:
+    elif choice==2:
+        x,y,p = choose_piece()
+
+def choose_piece():
+    cmd = input("What piece ? xy")
+
+    if cmd == "esc":
+        choice()
+
+    try:
+        x=cmd[0]
+        y=cmd[1]
+        p = plateau[x,y]
+    except:
+        print("Incorrect input, try again")
+        choose_piece()
+
+    if p == None:
         print("Empty, try again")
-        choice_1_coords()
-    elif type(plateau[x,y]) == pion.Rocher:
-        print("Cail' Cail' Caillou, try again")
-        choice_1_coords()
-    elif (type(plateau[x,y]) == pion.Rhino and j_elep == True) or (type(plateau[x,y]) == pion.Elephant and j_elep == False):
+        choose_piece()
+    elif type(p) == pion.Rocher:
+        print("It's a rock, try again")
+        choose_piece()
+    elif (type(p) == pion.Rhino and tour_elep == True) or (type(p) == pion.Elephant and tour_elep == False):
         print("Not your animal, try again")
-        choice_1_coords()
+        choose_piece()
     else:
-        cmd2 = input("")
+        return(x,y,p)
 
-while ingame:
-    j_rhino = not j_rhino
-    print(plateau)
+def choice_turn(x,y,p):
+    cmd2 = input("In which direction ? 0,90,180,270")
+
+    try:
+        new_direction = int(cmd2)
+    except:
+        print("Not an integer, try again")
+        choice_turn(x,y,pion)
+
+    if not (new_direction==0 or new_direction==90 or new_direction==180 or new_direction==270):
+        print("Incorrect input, try again")
+        choice_turn(x,y,pion)
+    elif tour_elep == True:
+        a_placer = pion.Elephant(x,y,new_direction)
+    else:
+        a_placer = pion.Rhino(x,y,new_direction)
+
+    plateau.set_pion(a_placer)
+
+def choice_move(x,y,p):
+
+def check_direction(x,y,p,direction):
+
+
+
+# while ingame:
+#     j_rhino = not j_rhino
+#     print(plateau)
