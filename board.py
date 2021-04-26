@@ -102,11 +102,39 @@ class Board(np.ndarray):
 
         return new_L, y
 
-    def insert(self,animal,x,y):
+    def insert(self,direction,x):
         """
         Insère un nouveau pion sur le plateau, pousse les autres si nécessaire
         """
-        
+        if direction == 270:
+            L = self[x,:][::-1].copy()
+            y=4
+
+        elif direction == 180:
+            L = self[:,x].copy()
+            x=4
+
+        elif direction == 90:
+            L = self[x,:].copy()
+            y=0
+
+        elif direction == 0:
+            L = self[:,x][::-1].copy()
+            x=0
+
+        L=np.array(L)
+        L.insert(0,pion.Rhino(0,0,direction))       # on rajoute un animal dans le sens de la marche pour que move_check() fonctionne
+        new_L, check = self.move_check(L, direction)
+
+        if check:
+            for pion_bouge in new_L[1:]:            # mais on ne bouge pas l'animal rajouté
+                pion_bouge.move(direction)
+
+        self.update()
+
+        return check, x, y
+
+
 
     def move_check(self,L,direction):
         """

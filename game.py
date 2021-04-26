@@ -19,20 +19,19 @@ def choice():
 
     elif choice==2:
         x,y,p = check_piece()
-        choice_move(p)
+        choice_move(x,y,p)
+
+    elif choice==3:
+        dir, x = check_insert()
+        plateau.insert(dir,x)
+
 
 
 def choice_turn(x,y,p):
     new_direction = check_direction(x,y,p)
+    p.turn(new_direction)
 
-    if tour_elep == True:
-        a_placer = pion.Elephant(x,y,new_direction)
-    else:
-        a_placer = pion.Rhino(x,y,new_direction)
-
-    plateau.set_pion(a_placer)
-
-def choice_move(p):
+def choice_move(x,y,p):
     dir = check_direction()
     L_moved, y = plateau.move(p,dir)
 
@@ -40,9 +39,9 @@ def choice_move(p):
         print("Impossible to push, try again")
         choice()
 
-
-
-
+    elif len(L_moved) <= 1:
+        print("Enter final direction")
+        choice_turn(x,y,p)
 
 
 def check_piece():
@@ -100,6 +99,23 @@ def check_choice():
         check_choice()
 
     return choice
+
+def check_insert():
+    dir = check_direction()
+
+    cmd = input("At which position ?")
+
+    try:
+        x = int(cmd)
+    except:
+        print("Not an integer, try again")
+        check_insert()
+    if not 0<=cmd<4:
+        print("Incorrect input, try again")
+        check_insert()
+
+    return dir,x
+
 
 
 
