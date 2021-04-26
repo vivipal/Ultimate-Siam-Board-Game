@@ -75,35 +75,32 @@ class Board(np.ndarray):
         """
         fait bouger le pion dans la direction demandée, pousse les pions devant si possible
         """
-        if type(animal) == None:
-            print("t'as essayé de déplacer une case vide trouduc")
+        x = animal.x
+        y = animal.y
+        size = np.shape(self)
+
+        if direction == 270:
+            L = self[ x , 0:y+1][::-1].copy()
+
+        elif direction == 180:
+            L = self[ x:size[0]+1 , y ].copy()
+
+        elif direction == 90:
+            L = self[ x, y:size[1]+1 ].copy()
+
+        elif direction == 0:
+            L = self[ 0:x+1 , y][::-1].copy()
+
+        L=np.array(L)
+        new_L, y = self.move_check(L, direction)
+
+        if y:
+            for pion_bouge in new_L:
+                pion_bouge.move(direction)
         else:
-            x = animal.x
-            y = animal.y
-            size = np.shape(self)
+            print("ca bouge pas C H E H")
 
-            if direction == 270:
-                L = self[ x , 0:y+1][::-1].copy()
-
-            elif direction == 180:
-                L = self[ x:size[0]+1 , y ].copy()
-
-            elif direction == 90:
-                L = self[ x, y:size[1]+1 ].copy()
-
-            elif direction == 0:
-                L = self[ 0:x+1 , y][::-1].copy()
-
-            L=np.array(L)
-            new_L, y = self.move_check(L, direction)
-
-            if y:
-                for pion_bouge in new_L:
-                    pion_bouge.move(direction)
-            else:
-                print("ca bouge pas C H E H")
-
-            self.update()
+        self.update()
 
     def move_check(self,L,direction):
         """
@@ -178,3 +175,4 @@ if __name__=='__main__' :
     #a[2,2].turn(270)
     a.move(a[0,0],90)
     print(a)
+    print(type(a[0,1]))
