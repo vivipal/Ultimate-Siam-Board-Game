@@ -2,25 +2,6 @@ import pion
 import board
 
 
-def start():
-    ingame = True
-    tour_elep = True
-
-    plateau = board.Board((5,5),dtype=object)
-    plateau.set_pion(pion.Rocher(2,1))
-    plateau.set_pion(pion.Rocher(2,2))
-    plateau.set_pion(pion.Rocher(2,3))
-    print(plateau)
-
-    while ingame:
-        nb_e, nb_rh, nb_ro = plateau.nb_elephant, plateau.nb_rhino, plateau.nb_rocher
-        str = "Elephants"*tour_elep + "Rhinoceros"*(not tour_elep)
-        print("Au tour des "+str+"\n")
-        choice()
-        print(plateau)
-        print("--------------------------")
-        tour_elep = not tour_elep
-
 def choice():
     choice = check_choice()
 
@@ -66,15 +47,13 @@ def choice_insert(tour_elep,dir,x):
         print("Enter final direction \n")
         choice_turn(xp,yp,p)
 
+
 def victory(espece):
     str = "Elephants"*tour_elep + "Rhinoceros"*(not tour_elep)
     print("Les "+str+"ont gagné !")
     print("")
-    print("----------------------------------------")
+    print("--------------- FIN --------------------")
     print("")
-    start()
-
-
 
 
 def check_choice():
@@ -134,6 +113,7 @@ def check_direction():
         return new_direction
 
 def check_insert():
+    nb_e, nb_rh, nb_ro = plateau.nb_elephant, plateau.nb_rhino, plateau.nb_rocher
     if (nb_e==5 and tour_elep==True) or (nb_rh==5 and tour_elep==False):
         print("You can't have more than 5 pieces, try again")
         choice()
@@ -155,4 +135,19 @@ def check_insert():
     return dir,x
 
 if __name__=='__main__' :
-    start()
+    ingame = True
+    tour_elep = True
+
+    plateau = board.Board((5,5),dtype=object)
+    plateau.set_pion(pion.Rocher(2,1))
+    plateau.set_pion(pion.Rocher(2,2))
+    plateau.set_pion(pion.Rocher(2,3))
+    print(plateau)
+
+    while ingame:
+        str = "Elephants"*tour_elep + "Rhinoceros"*(not tour_elep)
+        print("Au tour des "+str+"\n")
+        choice()
+        print(plateau)
+        print("--------------------------")
+        tour_elep = not tour_elep
