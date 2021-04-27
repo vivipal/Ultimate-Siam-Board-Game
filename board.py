@@ -134,16 +134,16 @@ class Board(np.ndarray):
         L2 = np.insert(L2,0,[pion.Rhino(0,0,direction)])       # on rajoute un animal dans le sens de la marche pour que move_check() fonctionne
         new_L2, check = self.move_check(L2, direction)
 
+        if tour_elep == True:
+            p = pion.Elephant(x,y,direction)
+        else:
+            p = pion.Rhino(x,y,direction)
 
         if check:
             for pion_bouge in new_L2[1:]:            # mais on ne bouge pas l'animal rajouté
                 pion_bouge.move(direction)
-            self.update()
-            if tour_elep == True:
-                p = pion.Elephant(x,y,direction)
-            else:
-                p = pion.Rhino(x,y,direction)
             self.set_pion(p)
+            self.update()
 
 
         return check, new_L2, p
