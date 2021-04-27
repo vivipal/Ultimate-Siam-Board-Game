@@ -102,7 +102,7 @@ class Board(np.ndarray):
 
         return new_L, y
 
-    def insert(self,direction,x):
+    def insert(self,tour_elep,direction,x):
         """
         Insère un nouveau pion sur le plateau, pousse les autres si nécessaire
         """
@@ -129,10 +129,14 @@ class Board(np.ndarray):
         if check:
             for pion_bouge in new_L[1:]:            # mais on ne bouge pas l'animal rajouté
                 pion_bouge.move(direction)
+            if tour_elep == True:
+                plateau.set_pion(pion.Elephant(x,y,0))
+            else:
+                plateau.set_pion(pion.Rhino(x,y,0))
 
         self.update()
 
-        return check, x, y
+        return check, new_L
 
 
 

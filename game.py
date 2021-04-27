@@ -1,14 +1,25 @@
 import pion
 import board
 
+### Initialisation
+
 ingame = True
 tour_elep = True
 
-plateau = board.Board((5,5),dtype=object)     # initialisation
+plateau = board.Board((5,5),dtype=object)
 plateau.set_pion(pion.Rocher(2,1))
 plateau.set_pion(pion.Rocher(2,2))
 plateau.set_pion(pion.Rocher(2,3))
 print(plateau)
+
+
+
+### Définition des règles, du fonctionnement
+"""
+Règles manquantes :
+ - condition de victoire
+ - ne pas pouvoir insérer de pions si les 5 sont déjà sur le plateau
+"""
 
 def choice():
     choice = check_choice()
@@ -23,8 +34,7 @@ def choice():
 
     elif choice==3:
         dir, x = check_insert()
-        plateau.insert(dir,x)
-
+        choice_insert(tour_elep,dir,x)
 
 
 def choice_turn(x,y,p):
@@ -43,6 +53,30 @@ def choice_move(x,y,p):
         print("Enter final direction")
         choice_turn(x,y,p)
 
+def choice_insert(tour_elep,dir,x):
+    check, L_moved = plateau.insert(tour_elep,dir,x)
+    if check == False:
+        print("Impossible to insert, try again")
+        choice()
+    elif len(L_moved) <= 1:
+        print("Enter final direction")
+        choice_turn(x,y,p)
+
+
+def check_choice():
+    cmd = input("What do you want to do ? \n turn a piece in place 1 \n move piece 2 \n add a new piece 3 \n")
+
+    try:
+        choice = int(cmd)
+    except:
+        print("Not an integer, try again")
+        check_choice()
+
+    if not (choice==1 or choice==2 or choice==3):
+        print("Incorrect input, try again")
+        check_choice()
+
+    return choice
 
 def check_piece():
     cmd = input("What piece ? xy")
@@ -85,21 +119,6 @@ def check_direction():
 
         return new_direction
 
-def check_choice():
-    cmd = input("What do you want to do ? \n turn a piece in place 1 \n move piece 2 \n add a new piece 3")
-
-    try:
-        choice = int(cmd)
-    except:
-        print("Not an integer, try again")
-        check_choice()
-
-    if not (choice==1 or choice==2 or choice==3):
-        print("Incorrect input, try again")
-        check_choice()
-
-    return choice
-
 def check_insert():
     dir = check_direction()
 
@@ -118,7 +137,12 @@ def check_insert():
 
 
 
+### Déroulement du jeu
 
-# while ingame:
-#     j_rhino = not j_rhino
-#     print(plateau)
+while ingame:
+    str = "Elephants"*tour_elep + "Rhinoceros"*(not tour_elep)
+    print("Au tour des "+str+"\n")
+    choice()
+    print(plateau)
+    print("--------------------------")
+    tour_elep = not tour_elep
