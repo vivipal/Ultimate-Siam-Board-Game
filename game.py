@@ -1,27 +1,25 @@
 import pion
 import board
 
-### Initialisation
 
-ingame = True
-tour_elep = True
+def start():
+    ingame = True
+    tour_elep = True
 
-plateau = board.Board((5,5),dtype=object)
-plateau.set_pion(pion.Rocher(2,1))
-plateau.set_pion(pion.Rocher(2,2))
-plateau.set_pion(pion.Rocher(2,3))
-plateau.set_pion(pion.Elephant(0,0,90))
-plateau.set_pion(pion.Rhino(0,1,270))
-print(plateau)
+    plateau = board.Board((5,5),dtype=object)
+    plateau.set_pion(pion.Rocher(2,1))
+    plateau.set_pion(pion.Rocher(2,2))
+    plateau.set_pion(pion.Rocher(2,3))
+    print(plateau)
 
-
-
-### Définition des règles, du fonctionnement
-"""
-Règles manquantes :
- - condition de victoire
- - ne pas pouvoir insérer de pions si les 5 sont déjà sur le plateau
-"""
+    while ingame:
+        nb_e, nb_rh, nb_ro = plateau.nb_elephant, plateau.nb_rhino, plateau.nb_rocher
+        str = "Elephants"*tour_elep + "Rhinoceros"*(not tour_elep)
+        print("Au tour des "+str+"\n")
+        choice()
+        print(plateau)
+        print("--------------------------")
+        tour_elep = not tour_elep
 
 def choice():
     choice = check_choice()
@@ -45,9 +43,12 @@ def choice_turn(x,y,p):
 
 def choice_move(x,y,p):
     dir = check_direction()
-    L_moved, y = plateau.move(p,dir)
+    L_moved, y, W = plateau.move(p,dir)
 
-    if y == False:
+    if len(W)==1:
+        victory(W[0])
+
+    elif y == False:
         print("Impossible to push, try again \n")
         choice()
 
@@ -64,6 +65,16 @@ def choice_insert(tour_elep,dir,x):
     elif len(L_moved) <= 1:
         print("Enter final direction \n")
         choice_turn(xp,yp,p)
+
+def victory(espece):
+    str = "Elephants"*tour_elep + "Rhinoceros"*(not tour_elep)
+    print("Les "+str+"ont gagné !")
+    print("")
+    print("----------------------------------------")
+    print("")
+    start()
+
+
 
 
 def check_choice():
@@ -123,6 +134,10 @@ def check_direction():
         return new_direction
 
 def check_insert():
+    if (nb_e==5 and tour_elep==True) or (nb_rh==5 and tour_elep==False):
+        print("You can't have more than 5 pieces, try again")
+        choice()
+
     dir = check_direction()
 
     cmd = input("At which position ? \n")
@@ -132,20 +147,12 @@ def check_insert():
     except:
         print("Not an integer, try again \n")
         check_insert()
+
     if not 0<=x<4:
         print("Incorrect input, try again \n")
         check_insert()
 
     return dir,x
 
-
-
-### Déroulement du jeu
-
-while ingame:
-    str = "Elephants"*tour_elep + "Rhinoceros"*(not tour_elep)
-    print("Au tour des "+str+"\n")
-    choice()
-    print(plateau)
-    print("--------------------------")
-    tour_elep = not tour_elep
+if __name__=='__main__' :
+    start()
