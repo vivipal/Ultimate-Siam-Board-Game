@@ -107,37 +107,40 @@ class Board(np.ndarray):
         Insère un nouveau pion sur le plateau, pousse les autres si nécessaire
         """
         if direction == 270:
-            L = self[x,:][::-1].copy()
+            L2 = self[x,:][::-1].copy()
             y=4
 
         elif direction == 180:
-            L = self[:,x].copy()
-            x=4
+            L2 = self[:,x].copy()
+            y=x
+            x=0
 
         elif direction == 90:
-            L = self[x,:].copy()
+            L2 = self[x,:].copy()
             y=0
 
         elif direction == 0:
-            L = self[:,x][::-1].copy()
-            x=0
+            L2 = self[:,x][::-1].copy()
+            y=x
+            x=4
 
-        L=np.array(L)
-        L.insert(0,pion.Rhino(0,0,direction))       # on rajoute un animal dans le sens de la marche pour que move_check() fonctionne
-        new_L, check = self.move_check(L, direction)
+        L2 = np.array(L2)
+        L2 = np.insert(L2,0,[pion.Rhino(0,0,direction)])       # on rajoute un animal dans le sens de la marche pour que move_check() fonctionne
+        new_L2, check = self.move_check(L2, direction)
+
 
         if check:
-            for pion_bouge in new_L[1:]:            # mais on ne bouge pas l'animal rajouté
+            for pion_bouge in new_L2[1:]:            # mais on ne bouge pas l'animal rajouté
                 pion_bouge.move(direction)
+            self.update()
             if tour_elep == True:
-                plateau.set_pion(pion.Elephant(x,y,0))
+                p = pion.Elephant(x,y,direction)
             else:
-                plateau.set_pion(pion.Rhino(x,y,0))
+                p = pion.Rhino(x,y,direction)
+            self.set_pion(p)
 
-        self.update()
 
-        return check, new_L
-
+        return check, new_L2, p
 
 
     def move_check(self,L,direction):
@@ -165,12 +168,14 @@ class Board(np.ndarray):
 
         y = True
 
-        if len(new_L)>=1 and new_L[0].orientation != direction:
+        if len(new_L)>1 and new_L[0].orientation != direction:
             y = False
-        if c_contre >= c_pour:
-            y = False
-        elif c_pour - c_contre - c_caillou < 0:
-            y = False
+
+        if len(new_L)>1:
+            if c_contre >= c_pour:
+                y = False
+            elif c_pour - c_contre - c_caillou < 0:
+                y = False
 
         return new_L, y
 
