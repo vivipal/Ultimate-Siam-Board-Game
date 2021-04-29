@@ -154,36 +154,37 @@ class Board(np.ndarray):
         à partir de la liste créée par move(), regarde si le mouvement demandé est possible
         """
 
-        c_caillou = 0
-        c_pour = 0
-        c_contre = 0
-        new_L = []
+        # c_caillou = 0
+        # c_pour = 0
+        # c_contre = 0
+        # new_L = []
+        #
+        #
+        # for l in L:
+        #     if l == None:
+        #         break
+        #     elif type(l) == pion.Rocher:
+        #         c_caillou += 1
+        #     else:
+        #         if l.orientation == direction:
+        #             c_pour += 1
+        #         elif l.orientation == (direction + 180) % 360:
+        #             c_contre += 1
+        #     new_L.append(l)
+        #
+        # y = True
+        #
+        # if len(new_L)>1 and new_L[0].orientation != direction:
+        #     y = False
+        #
+        # if len(new_L)>1:
+        #     if c_contre >= c_pour:
+        #         y = False
+        #     elif c_pour - c_contre - c_caillou < 0:
+        #         y = False
+        #
+        # return new_L, y
 
-
-        for l in L:
-            if l == None:
-                break
-            elif type(l) == pion.Rocher:
-                c_caillou += 1
-            else:
-                if l.orientation == direction:
-                    c_pour += 1
-                elif l.orientation == (direction + 180) % 360:
-                    c_contre += 1
-            new_L.append(l)
-
-        y = True
-
-        if len(new_L)>1 and new_L[0].orientation != direction:
-            y = False
-
-        if len(new_L)>1:
-            if c_contre >= c_pour:
-                y = False
-            elif c_pour - c_contre - c_caillou < 0:
-                y = False
-
-        return new_L, y
 
 
     def set_pion(self, pion):
