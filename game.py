@@ -3,6 +3,7 @@ import board
 
 
 def choice():
+    print(plateau)
     choice = check_choice()
 
     if choice==1:
@@ -74,26 +75,23 @@ def check_choice():
 def check_piece():
     cmd = input("What piece ? xy \n")
 
-    if cmd == "esc":
-        choice()
-
     try:
         x = int(cmd[0])
         y = int(cmd[1])
         p = plateau[x,y]
     except:
         print("Incorrect input, try again \n")
-        check_piece()
+        check_choice()
 
     if p == None:
         print("Empty, try again \n")
-        check_piece()
+        check_choice()
     elif type(p) == pion.Rocher:
         print("It's a rock, try again \n")
-        check_piece()
+        check_choice()
     elif (type(p) == pion.Rhino and tour_elep == True) or (type(p) == pion.Elephant and tour_elep == False):
         print("Not your animal, try again \n")
-        check_piece()
+        check_choice()
     else:
         return(x,y,p)
 
@@ -128,7 +126,10 @@ def check_insert():
         print("Not an integer, try again \n")
         check_insert()
 
-    if not 0<=x<4:
+    if (dir==0 or dir==180) and x==2:
+        print("Impossible to place here, try again \n")
+        check_insert()
+    elif not 0<=x<4:
         print("Incorrect input, try again \n")
         check_insert()
 
@@ -144,12 +145,10 @@ if __name__=='__main__' :
     plateau.set_pion(pion.Elephant(0,2,90))
     plateau.set_pion(pion.Elephant(0,3,270))
     plateau.set_pion(pion.Elephant(0,4,0))
-    print(plateau)
 
     while ingame:
+        print("--------------------------")
         str = "Elephants"*tour_elep + "Rhinoceros"*(not tour_elep)
         print("Au tour des "+str+"\n")
         choice()
-        print(plateau)
-        print("--------------------------")
         tour_elep = not tour_elep

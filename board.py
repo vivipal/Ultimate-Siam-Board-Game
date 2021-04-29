@@ -165,6 +165,7 @@ class Board(np.ndarray):
         while move_check_contre(L,direction) == True:     # tant qu'il reste des animaux s'opposant au mouvement, on cherche à les compenser avec des animaux favorisant le mouvement
             if move_check_pour(L,direction) == False:     # s'il n'y en a plus, le mouvement n'est pas possible
                 possible = False
+                break
             else:
                 pos = -1
                 for i in range(len(L)):
@@ -183,6 +184,7 @@ class Board(np.ndarray):
         while move_check_rocher(L) == True:     # même démarche qu'avec les animaux opposants
             if move_check_pour(L,direction) == False:
                 possible = False
+                break
             else:
                 pos = -1
                 for i in range(len(L)):
@@ -203,40 +205,46 @@ class Board(np.ndarray):
         Insère un nouveau pion sur le plateau, pousse les autres si nécessaire
         """
         if direction == 270:
-            L2 = self[x,:][::-1].copy()
+            L = self[x,:][::-1].copy()
             y=4
 
         elif direction == 180:
-            L2 = self[:,x].copy()
+            L = self[:,x].copy()
             y=x
             x=0
 
         elif direction == 90:
-            L2 = self[x,:].copy()
+            L = self[x,:].copy()
             y=0
 
         else:
-            L2 = self[:,x][::-1].copy()
+            L = self[:,x][::-1].copy()
             y=x
             x=4
-
-        L3 = np.array(L2)
-        L4 = np.insert(L3,0,[pion.Rhino(0,0,direction)])       # on rajoute un animal dans le sens de la marche pour que move_check() fonctionne
-        new_L4, check = self.move_check(L4, direction)
 
         if tour_elep == True:
             p = pion.Elephant(x,y,direction)
         else:
             p = pion.Rhino(x,y,direction)
 
+        L = np.array(L)
+        L = np.insert(L,0,p)
+        new_L, check = self.move_check(L, direction)
+
         if check:
-            for pion_bouge in new_L4[1:]:            # mais on ne bouge pas l'animal rajouté
+            for pion_bouge in new_L[1:]:            # mais on ne bouge pas l'animal rajouté
                 pion_bouge.move(direction)
+            self.update()
             self.set_pion(p)
             self.update()
+            # for p in new_L:
+            #     if p!=None and type(p)!=pion.Rocher:
+            #         print(p, p.x, p.y, p.orientation)
+            #     elif p!=None and type(p)==pion.Rocher:
+            #         print(p, p.x, p.y)
 
 
-        return check, new_L4, p
+        return check, new_L, p
 
 
     def set_pion(self, pion):
