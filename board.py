@@ -80,19 +80,19 @@ class Board(np.ndarray):
         size = np.shape(self)
 
         if direction == 270:
-            L = self[ x , 0:y+1][::-1].copy()
+            Lraw = self[ x , 0:y+1][::-1].copy()
 
         elif direction == 180:
-            L = self[ x:size[0]+1 , y ].copy()
+            Lraw = self[ x:size[0]+1 , y ].copy()
 
         elif direction == 90:
-            L = self[ x, y:size[1]+1 ].copy()
+            Lraw = self[ x, y:size[1]+1 ].copy()
 
         elif direction == 0:
-            L = self[ 0:x+1 , y][::-1].copy()
+            Lraw = self[ 0:x+1 , y][::-1].copy()
 
-        L=np.array(L)
-        new_L, y = self.move_check(L, direction)
+        Lraw=np.array(Lraw)
+        new_L, y = self.move_check(Lraw, direction)
 
         W = []
 
@@ -107,6 +107,93 @@ class Board(np.ndarray):
         self.update()
 
         return new_L, y, W
+
+    def move_check(self,Lraw,direction):
+        """
+        à partir de la liste créée par move(), regarde si le mouvement demandé est possible
+        """
+        possible = True
+
+        L = move_check_delete_none(Lraw)            # on ne garde que les animaux susceptibles de bouger
+        L_a_bouger = L.copy()
+
+        while move_check_contre(L) == True:     # tant qu'il reste des animaux s'opposant au mouvement, on cherche à les compenser avec des animaux favorisant le mouvement
+            if move_check_pour(L) == False:     # s'il n'y en a plus, le mouvement n'est pas possible
+                possible = False
+            else:
+                pos = -1
+                for i in range(len(L)):
+                    pi = L[i]
+                    if type(pi)!=pion.Rocher and pi.orientation==direction:     # l'animal favorisant qui doit être enlevé pour compenser l'opposant doit être le plus proche de l'opposant
+                        pos = i
+                    elif type(pi)!=pion.Rocher and pi.orientation==(direction + 180) % 360:
+                        np.delete(L,i)          # on supprime d'abord L[i] pour ne pas modifer l'indice de L[pos]
+                        np.delete(L,pos)
+                        break
+        # il ne peut rester désormais que des animaux favorisants et neutres, et des rochers
+
+        if move_check_pour(L) == False:         # s'il ne reste que des animaux neutres et des rochers, le mouvement n'est pas possible
+            possible = False
+
+        while move_check_rocher(L) == True:     # même démarche qu'avec les animaux opposants
+            if move_check_pour(L) == False:
+                possible = False
+            else:
+                pos = -1
+                for i in range(len(L)):
+                    pi = L[i]
+                    if type(pi)!=pion.Rocher and pi.orientation==direction:     # l'animal favorisant qui doit être enlevé pour compenser le rocher doit être le plus proche du rocher
+                        pos = i
+                    elif type(pi)==pion.Rocher:
+                        np.delete(L,i)          # on supprime d'abord L[i] pour ne pas modifer l'indice de L[pos]
+                        np.delete(L,pos)
+                        break
+        # si on est arrivé jusqu'ici sans modifier <possible>, c'est que le mouvement est possible
+
+        return L_a_bouger, possible
+
+    def move_check_contre(L,direction):
+        """
+        vérifie s'il reste des animaux s'opposant au mouvement dans la liste
+        """
+        y = False
+        for p in L:
+            if type(p)!=pion.Rocher and p.orientation==(direction + 180) % 360:
+                y = True
+        return y
+
+    def move_check_pour(L,direction):
+        """
+        vérifie s'il reste des animaux favorisant le mouvement dans la liste
+        """
+        y = False
+        for p in L:
+            if type(p)!=pion.Rocher and p.orientation==direction:
+                y = True
+        return y
+
+    def move_check_rocher(L,direction):
+        """
+        vérifie s'il reste des rocher
+        """
+        y = False
+        for p in L:
+            if type(p)!=pion.Rocher and p.orientation==direction:
+                y = True
+        return y
+
+    def move_check_delete_none(L):
+        """
+        transforme la liste créée par move() en ne gardant que les pions susceptibles de bouger
+        """
+        new_L = []
+        for p in L:
+            if p!=None:
+                new_L.append(p)
+            else:
+                break
+        return new_L
+
 
     def insert(self,tour_elep,direction,x):
         """
@@ -149,44 +236,6 @@ class Board(np.ndarray):
         return check, new_L2, p
 
 
-    def move_check(self,L,direction):
-        """
-        à partir de la liste créée par move(), regarde si le mouvement demandé est possible
-        """
-
-        # c_caillou = 0
-        # c_pour = 0
-        # c_contre = 0
-        # new_L = []
-        #
-        #
-        # for l in L:
-        #     if l == None:
-        #         break
-        #     elif type(l) == pion.Rocher:
-        #         c_caillou += 1
-        #     else:
-        #         if l.orientation == direction:
-        #             c_pour += 1
-        #         elif l.orientation == (direction + 180) % 360:
-        #             c_contre += 1
-        #     new_L.append(l)
-        #
-        # y = True
-        #
-        # if len(new_L)>1 and new_L[0].orientation != direction:
-        #     y = False
-        #
-        # if len(new_L)>1:
-        #     if c_contre >= c_pour:
-        #         y = False
-        #     elif c_pour - c_contre - c_caillou < 0:
-        #         y = False
-        #
-        # return new_L, y
-
-
-
     def set_pion(self, pion):
         """
         ajoute un pion sur le plateau de jeu
@@ -222,7 +271,3 @@ if __name__=='__main__' :
     a.set_pion(pion.Rocher(0,2))
     a.set_pion(pion.Rhino(0,3,270))
     print(a)
-    #a[2,2].turn(270)
-    a.move(a[0,0],90)
-    print(a)
-    print(type(a[0,1]))
