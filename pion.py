@@ -1,6 +1,5 @@
 from board import Board
 
-
 class Pion():
     '''
     Classe décrivant les pions (Elephant, Rhino, Caillou)

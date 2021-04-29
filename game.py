@@ -139,9 +139,11 @@ if __name__=='__main__' :
     tour_elep = True
 
     plateau = board.Board((5,5),dtype=object)
-    plateau.set_pion(pion.Rocher(2,1))
-    plateau.set_pion(pion.Rocher(2,2))
-    plateau.set_pion(pion.Rocher(2,3))
+    plateau.set_pion(pion.Elephant(0,0,90))
+    plateau.set_pion(pion.Rocher(0,1))
+    plateau.set_pion(pion.Elephant(0,2,90))
+    plateau.set_pion(pion.Elephant(0,3,270))
+    plateau.set_pion(pion.Elephant(0,4,0))
     print(plateau)
 
     while ingame:
