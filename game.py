@@ -31,19 +31,18 @@ def choice_move(x,y,p):
 
     elif y == False:
         print("Impossible to push, try again \n")
-        choice()
+        return choice()
 
     elif len(L_moved) <= 1:
         print("Enter final direction \n")
-        choice_turn(x,y,p)
+        return choice_turn(x,y,p)
 
 def choice_insert(tour_elep,dir,x):
     check, L_moved, p = plateau.insert(tour_elep,dir,x)
     xp,yp = p.coords
     if check == False:
         print("Impossible to insert, try again \n")
-        choice_insert(tour_elep,dir,x)
-        return
+        return choice_insert(tour_elep,dir,x)
     elif len(L_moved) <= 1:
         print("Enter final direction \n")
         choice_turn(xp,yp,p)
@@ -111,10 +110,11 @@ def check_direction():
         return new_direction
 
 def check_insert():
-    nb_e, nb_rh, nb_ro = plateau.nb_elephant, plateau.nb_rhino, plateau.nb_rocher
+    nb_e, nb_rh, nb_ro = plateau.nb_elephant(), plateau.nb_rhino(), plateau.nb_rocher()
+    print(nb_e, nb_rh, nb_ro)
     if (nb_e==5 and tour_elep==True) or (nb_rh==5 and tour_elep==False):
         print("You can't have more than 5 pieces, try again")
-        choice()
+        return choice()
 
     dir = check_direction()
 
@@ -128,11 +128,9 @@ def check_insert():
     if (dir==0 or dir==180) and x==2:
         print("Impossible to place here, try again \n")
         return check_insert()
-    elif not 0<=x<4:
+    elif not 0<=x<=4:
         print("Incorrect input, try again \n")
         return check_insert()
-    print("AAAAAAAAAAAAAAAAAAAAAAAH")
-    print(dir,x)
 
     return dir,x
 
@@ -145,6 +143,12 @@ if __name__=='__main__' :
     plateau.set_pion(pion.Rocher(2,1))
     plateau.set_pion(pion.Rocher(2,2))
     plateau.set_pion(pion.Rocher(2,3))
+
+    plateau.set_pion(pion.Elephant(0,0,0))
+    plateau.set_pion(pion.Elephant(0,1,0))
+    plateau.set_pion(pion.Elephant(0,2,0))
+    plateau.set_pion(pion.Elephant(0,3,0))
+    plateau.set_pion(pion.Elephant(0,4,0))
 
     while ingame:
         print("--------------------------")
