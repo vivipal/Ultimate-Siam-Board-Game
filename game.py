@@ -15,8 +15,11 @@ def choice():
         choice_move(x,y,p)
 
     elif choice==3:
-        dir, x = check_insert()
-        choice_insert(tour_elep,dir,x)
+        try:
+            dir, x = check_insert()
+            choice_insert(tour_elep,dir,x)
+        except:
+            choice()
 
 def choice_turn(x,y,p):
     new_direction = check_direction()
@@ -111,10 +114,10 @@ def check_direction():
 
 def check_insert():
     nb_e, nb_rh, nb_ro = plateau.nb_elephant(), plateau.nb_rhino(), plateau.nb_rocher()
-    print(nb_e, nb_rh, nb_ro)
     if (nb_e==5 and tour_elep==True) or (nb_rh==5 and tour_elep==False):
         print("You can't have more than 5 pieces, try again")
-        return choice()
+        return
+
 
     dir = check_direction()
 
