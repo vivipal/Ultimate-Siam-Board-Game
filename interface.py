@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'untitled.ui'
+# Form implementation generated from reading ui file 'interface.ui'
 #
 # Created by: PyQt5 UI code generator 5.14.2
 #
@@ -233,36 +233,21 @@ class Ui_MainWindow(object):
         self.down.setText("")
         self.down.setObjectName("down")
         self.Joystick.addWidget(self.down, 2, 1, 1, 1)
-        self.layoutWidget2 = QtWidgets.QWidget(self.centralwidget)
-        self.layoutWidget2.setGeometry(QtCore.QRect(10, 560, 441, 27))
-        self.layoutWidget2.setObjectName("layoutWidget2")
-        self.ActionSelector = QtWidgets.QHBoxLayout(self.layoutWidget2)
-        self.ActionSelector.setContentsMargins(0, 0, 0, 0)
-        self.ActionSelector.setObjectName("ActionSelector")
-        self.Button_insert = QtWidgets.QPushButton(self.layoutWidget2)
-        self.Button_insert.setObjectName("Button_insert")
-        self.ActionSelector.addWidget(self.Button_insert)
-        self.Button_turn = QtWidgets.QPushButton(self.layoutWidget2)
-        self.Button_turn.setObjectName("Button_turn")
-        self.ActionSelector.addWidget(self.Button_turn)
-        self.Button_move_turn = QtWidgets.QPushButton(self.layoutWidget2)
-        self.Button_move_turn.setObjectName("Button_move_turn")
-        self.ActionSelector.addWidget(self.Button_move_turn)
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(140, 440, 183, 83))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout.setObjectName("verticalLayout")
+        self.ActionSelector2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+        self.ActionSelector2.setContentsMargins(0, 0, 0, 0)
+        self.ActionSelector2.setObjectName("ActionSelector2")
         self.RButton_insert = QtWidgets.QRadioButton(self.verticalLayoutWidget)
         self.RButton_insert.setObjectName("RButton_insert")
-        self.verticalLayout.addWidget(self.RButton_insert)
+        self.ActionSelector2.addWidget(self.RButton_insert)
         self.RButton_turn = QtWidgets.QRadioButton(self.verticalLayoutWidget)
         self.RButton_turn.setObjectName("RButton_turn")
-        self.verticalLayout.addWidget(self.RButton_turn)
+        self.ActionSelector2.addWidget(self.RButton_turn)
         self.RButton_move_turn = QtWidgets.QRadioButton(self.verticalLayoutWidget)
         self.RButton_move_turn.setObjectName("RButton_move_turn")
-        self.verticalLayout.addWidget(self.RButton_move_turn)
+        self.ActionSelector2.addWidget(self.RButton_move_turn)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 681, 22))
@@ -278,9 +263,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.Button_insert.setText(_translate("MainWindow", "inserer nv pion"))
-        self.Button_turn.setText(_translate("MainWindow", "tourner"))
-        self.Button_move_turn.setText(_translate("MainWindow", "bouger+tourner"))
         self.RButton_insert.setText(_translate("MainWindow", "inserer pion"))
         self.RButton_turn.setText(_translate("MainWindow", "tourner pion"))
         self.RButton_move_turn.setText(_translate("MainWindow", "bouger et tourner pion"))
