@@ -18,7 +18,6 @@ def choice():
         dir, x = check_insert()
         choice_insert(tour_elep,dir,x)
 
-
 def choice_turn(x,y,p):
     new_direction = check_direction()
     p.turn(new_direction)
@@ -43,7 +42,8 @@ def choice_insert(tour_elep,dir,x):
     xp,yp = p.coords
     if check == False:
         print("Impossible to insert, try again \n")
-        choice()
+        choice_insert(tour_elep,dir,x)
+        return
     elif len(L_moved) <= 1:
         print("Enter final direction \n")
         choice_turn(xp,yp,p)
@@ -64,11 +64,11 @@ def check_choice():
         choice = int(cmd)
     except:
         print("Not an integer, try again \n")
-        check_choice()
+        return check_choice()
 
     if not (choice==1 or choice==2 or choice==3):
         print("Incorrect input, try again \n")
-        check_choice()
+        return check_choice()
 
     return choice
 
@@ -81,17 +81,17 @@ def check_piece():
         p = plateau[x,y]
     except:
         print("Incorrect input, try again \n")
-        check_choice()
+        return check_piece()
 
     if p == None:
         print("Empty, try again \n")
-        check_choice()
+        return check_piece()
     elif type(p) == pion.Rocher:
         print("It's a rock, try again \n")
-        check_choice()
+        return check_piece()
     elif (type(p) == pion.Rhino and tour_elep == True) or (type(p) == pion.Elephant and tour_elep == False):
         print("Not your animal, try again \n")
-        check_choice()
+        return check_piece()
     else:
         return(x,y,p)
 
@@ -102,11 +102,11 @@ def check_direction():
             new_direction = int(cmd)
         except:
             print("Not an integer, try again \n")
-            check_direction()
+            return check_direction()
 
         if not (new_direction==0 or new_direction==90 or new_direction==180 or new_direction==270):
             print("Incorrect input, try again \n")
-            check_direction()
+            return check_direction()
 
         return new_direction
 
@@ -124,27 +124,27 @@ def check_insert():
         x = int(cmd)
     except:
         print("Not an integer, try again \n")
-        check_insert()
-
+        return check_insert()
     if (dir==0 or dir==180) and x==2:
         print("Impossible to place here, try again \n")
-        check_insert()
+        return check_insert()
     elif not 0<=x<4:
         print("Incorrect input, try again \n")
-        check_insert()
+        return check_insert()
+    print("AAAAAAAAAAAAAAAAAAAAAAAH")
+    print(dir,x)
 
     return dir,x
+
 
 if __name__=='__main__' :
     ingame = True
     tour_elep = True
 
     plateau = board.Board((5,5),dtype=object)
-    plateau.set_pion(pion.Elephant(0,0,90))
-    plateau.set_pion(pion.Rocher(0,1))
-    plateau.set_pion(pion.Elephant(0,2,90))
-    plateau.set_pion(pion.Elephant(0,3,270))
-    plateau.set_pion(pion.Elephant(0,4,0))
+    plateau.set_pion(pion.Rocher(2,1))
+    plateau.set_pion(pion.Rocher(2,2))
+    plateau.set_pion(pion.Rocher(2,3))
 
     while ingame:
         print("--------------------------")
