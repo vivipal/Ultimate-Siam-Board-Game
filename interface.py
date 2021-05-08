@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'interface.ui'
+# Form implementation generated from reading ui file 'IHM/interface.ui'
 #
 # Created by: PyQt5 UI code generator 5.14.2
 #
@@ -236,18 +236,18 @@ class Ui_MainWindow(object):
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(140, 440, 183, 83))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
-        self.ActionSelector2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
-        self.ActionSelector2.setContentsMargins(0, 0, 0, 0)
-        self.ActionSelector2.setObjectName("ActionSelector2")
+        self.ActionSelector = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+        self.ActionSelector.setContentsMargins(0, 0, 0, 0)
+        self.ActionSelector.setObjectName("ActionSelector")
         self.RButton_insert = QtWidgets.QRadioButton(self.verticalLayoutWidget)
         self.RButton_insert.setObjectName("RButton_insert")
-        self.ActionSelector2.addWidget(self.RButton_insert)
+        self.ActionSelector.addWidget(self.RButton_insert)
         self.RButton_turn = QtWidgets.QRadioButton(self.verticalLayoutWidget)
         self.RButton_turn.setObjectName("RButton_turn")
-        self.ActionSelector2.addWidget(self.RButton_turn)
+        self.ActionSelector.addWidget(self.RButton_turn)
         self.RButton_move_turn = QtWidgets.QRadioButton(self.verticalLayoutWidget)
         self.RButton_move_turn.setObjectName("RButton_move_turn")
-        self.ActionSelector2.addWidget(self.RButton_move_turn)
+        self.ActionSelector.addWidget(self.RButton_move_turn)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 681, 22))
