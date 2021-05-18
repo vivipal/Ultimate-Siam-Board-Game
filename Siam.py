@@ -2,13 +2,16 @@ import sys
 from PyQt5 import QtGui, QtCore, QtWidgets, uic
 from interface import Ui_MainWindow
 
+import board
+
 # l'approche par héritage simple de la classe QMainWindow (même type de notre fenêtre
 # créée avec QT Designer. Nous configurons après l'interface utilisateur
 # dans le constructeur (la méthode init()) de notre classe
 
 class SiamGame(QtWidgets.QMainWindow):
-    def __init__(self):
+    def __init__(self,plateau):
         super().__init__()
+        self.board = plateau
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
@@ -55,23 +58,32 @@ class SiamGame(QtWidgets.QMainWindow):
 
         print(x,y)
 
+        action = self.get_action()
+
+        if action >=0 :
+            if action == 0 :
+                self.insert_piece(x,y)
+
         # button.setStyleSheet("background-image : url(rhino.jpeg);")
         # button.setIcon(QtGui.QIcon('rhino.jpeg'))
 
 
         # self.rhinopix = QtGui.QPixmap("rhino.jpeg")
-        button.setIcon(QtGui.QIcon(self.rhinopix))
-        button.setIconSize(QtCore.QSize(70,70))
+        # button.setIcon(QtGui.QIcon(self.rhinopix))
+        # button.setIconSize(QtCore.QSize(70,70))
 
         self.turn_piece()
 
 
-    def insert_piece(self):
+    def insert_piece(self,x,y):
+
+        self.board.insert(True,90,y)
+
         print('u want to insert a piece')
 
     def turn_piece(self):
 
-        self.rhinopix = self.rhinopix.transformed(QtGui.QTransform().rotate(90))
+        # self.rhinopix = self.rhinopix.transformed(QtGui.QTransform().rotate(90))
 
         print('u want to turn a piece')
 
@@ -93,7 +105,13 @@ class SiamGame(QtWidgets.QMainWindow):
         return -1
 
 if __name__ == "__main__":
+
+    ingame = True
+    tour_elep = True
+
+    plateau = board.Board((5,5),dtype=object)
+
     app = QtWidgets.QApplication(sys.argv)
-    window = SiamGame()
+    window = SiamGame(plateau)
     window.show()
     app.exec_()
