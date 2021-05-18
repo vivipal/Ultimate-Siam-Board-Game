@@ -2,17 +2,17 @@
 from PyQt5 import QtGui, QtCore, QtWidgets, uic
 from interface import Ui_MainWindow
 
-# import board
 
 # l'approche par héritage simple de la classe QMainWindow (même type de notre fenêtre
 # créée avec QT Designer. Nous configurons après l'interface utilisateur
 # dans le constructeur (la méthode init()) de notre classe
 
 class SiamGame(QtWidgets.QMainWindow):
-    def __init__(self):
+    def __init__(self,board):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.board = board
 
 
         #connect case button
@@ -42,18 +42,44 @@ class SiamGame(QtWidgets.QMainWindow):
         self.ui.case43.clicked.connect(lambda : self.case_choice(self.ui.case43))
         self.ui.case44.clicked.connect(lambda : self.case_choice(self.ui.case44))
 
+
+        self.ui.pushButton_00l.clicked.connect(lambda : self.insert_piece(0,0,90))
+        self.ui.pushButton_00u.clicked.connect(lambda : self.insert_piece(0,0,180))
+        self.ui.pushButton_01.clicked.connect(lambda : self.insert_piece(0,1))
+        self.ui.pushButton_02.clicked.connect(lambda : self.insert_piece(0,2))
+        self.ui.pushButton_03.clicked.connect(lambda : self.insert_piece(0,3))
+        self.ui.pushButton_04d.clicked.connect(lambda : self.insert_piece(0,4,0))
+        self.ui.pushButton_04l.clicked.connect(lambda : self.insert_piece(0,4,90))
+        self.ui.pushButton_10.clicked.connect(lambda : self.insert_piece(1,0))
+        self.ui.pushButton_14.clicked.connect(lambda : self.insert_piece(1,4))
+        self.ui.pushButton_30.clicked.connect(lambda : self.insert_piece(3,0))
+        self.ui.pushButton_34.clicked.connect(lambda : self.insert_piece(3,4))
+        self.ui.pushButton_40r.clicked.connect(lambda : self.insert_piece(4,0,270))
+        self.ui.pushButton_40u.clicked.connect(lambda : self.insert_piece(4,0,180))
+        self.ui.pushButton_41.clicked.connect(lambda : self.insert_piece(4,1))
+        self.ui.pushButton_42.clicked.connect(lambda : self.insert_piece(4,2))
+        self.ui.pushButton_43.clicked.connect(lambda : self.insert_piece(4,3))
+        self.ui.pushButton_44d.clicked.connect(lambda : self.insert_piece(4,4,0))
+        self.ui.pushButton_44r.clicked.connect(lambda : self.insert_piece(4,4,270))
+
         #add bg image to all case
         for i in range(self.ui.Board.count()):
                 self.ui.Board.itemAt(i).widget().setStyleSheet("background-image : url(img/ground.jpeg)")
 
-        self.rhinopix = QtGui.QPixmap("img/rhino.jpeg")
+
+        self.ui.RButton_insert.toggled.connect(self.choose_insert)
+        self.ui.RButton_turn.toggled.connect(self.turn_piece)
+        self.ui.RButton_move_turn.toggled.connect(self.move_turn_piece)
+
+        for button in self.ui.direction_insert.buttons():
+            button.hide()
 
 
 
     def case_choice(self,button):
 
-        x = button.x()%70//6 - 1
-        y = button.y()%70//6 - 1
+        y = button.x()%70//6 - 1
+        x = button.y()%70//6 - 1
 
         print(x,y)
 
@@ -71,22 +97,38 @@ class SiamGame(QtWidgets.QMainWindow):
         # button.setIcon(QtGui.QIcon(self.rhinopix))
         # button.setIconSize(QtCore.QSize(70,70))
 
-        self.turn_piece()
 
+    def choose_insert(self):
 
-    def insert_piece(self,x,y):
+        for button in self.ui.direction_insert.buttons():
+            button.show()
 
-        self.board.insert(True,90,y)
+    def insert_piece(self,y,x,dir=None):
 
-        print('u want to insert a piece')
+        if dir == None:
+            if x==0:
+                dir = 180
+            elif x==4:
+                dir = 0
+            elif y == 0:
+                dir = 90
+            elif y==4:
+                dir = 270
+
+        self.board.insert2(x,y,dir)
+
 
     def turn_piece(self):
+        for button in self.ui.direction_insert.buttons():
+            button.hide()
 
         # self.rhinopix = self.rhinopix.transformed(QtGui.QTransform().rotate(90))
 
         print('u want to turn a piece')
 
     def move_turn_piece(self):
+        for button in self.ui.direction_insert.buttons():
+            button.hide()
         print('u want to move & turn a piece')
 
 

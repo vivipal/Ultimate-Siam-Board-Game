@@ -7,7 +7,11 @@ import sys
 from PyQt5 import QtGui, QtCore, QtWidgets, uic
 
 
+
+board = Board((5,5),dtype=object)
+
+
 app = QtWidgets.QApplication(sys.argv)
-window = SiamGame()
+window = SiamGame(board)
 window.show()
 app.exec_()

@@ -1,5 +1,5 @@
 import numpy as np
-# import pion
+import pion
 
 
 def move_check_delete_none(L):
@@ -66,7 +66,6 @@ class Board(np.ndarray):
         print("-----------------------")
         x,y = np.shape(self)
         view = np.empty((x,y),dtype='<U2')
-
 
         dir = ['^','>','v','<']
 
@@ -246,6 +245,33 @@ class Board(np.ndarray):
 
 
         return check, new_L, p
+
+
+    def insert2(self,x,y,dir):
+        """
+        Insère un nouveau pion sur le plateau, pousse les autres si nécessaire
+
+        x num ligne
+        y num col
+        """
+
+
+
+        if True == True:
+            p = pion.Elephant(x,y,dir)
+        else:
+            p = pion.Rhino(x,y,dir)
+
+
+        if self[x,y] == None :
+            self.set_pion(p)
+
+        else : #pas encore implémenter
+            pass
+
+        self.update()
+
+        print(self.__str__())
 
 
     def set_pion(self, pion):
