@@ -43,24 +43,24 @@ class SiamGame(QtWidgets.QMainWindow):
         self.ui.case44.clicked.connect(lambda : self.case_choice(self.ui.case44))
 
 
-        self.ui.pushButton_00l.clicked.connect(lambda : self.insert_piece(0,0,90))
-        self.ui.pushButton_00u.clicked.connect(lambda : self.insert_piece(0,0,180))
-        self.ui.pushButton_01.clicked.connect(lambda : self.insert_piece(0,1))
-        self.ui.pushButton_02.clicked.connect(lambda : self.insert_piece(0,2))
-        self.ui.pushButton_03.clicked.connect(lambda : self.insert_piece(0,3))
-        self.ui.pushButton_04d.clicked.connect(lambda : self.insert_piece(0,4,0))
-        self.ui.pushButton_04l.clicked.connect(lambda : self.insert_piece(0,4,90))
-        self.ui.pushButton_10.clicked.connect(lambda : self.insert_piece(1,0))
-        self.ui.pushButton_14.clicked.connect(lambda : self.insert_piece(1,4))
-        self.ui.pushButton_30.clicked.connect(lambda : self.insert_piece(3,0))
-        self.ui.pushButton_34.clicked.connect(lambda : self.insert_piece(3,4))
-        self.ui.pushButton_40r.clicked.connect(lambda : self.insert_piece(4,0,270))
-        self.ui.pushButton_40u.clicked.connect(lambda : self.insert_piece(4,0,180))
-        self.ui.pushButton_41.clicked.connect(lambda : self.insert_piece(4,1))
-        self.ui.pushButton_42.clicked.connect(lambda : self.insert_piece(4,2))
-        self.ui.pushButton_43.clicked.connect(lambda : self.insert_piece(4,3))
-        self.ui.pushButton_44d.clicked.connect(lambda : self.insert_piece(4,4,0))
-        self.ui.pushButton_44r.clicked.connect(lambda : self.insert_piece(4,4,270))
+        self.ui.pushButton_04d.clicked.connect(lambda : self.insert_piece(0,0))
+        self.ui.pushButton_14.clicked.connect(lambda : self.insert_piece(1,0))
+        self.ui.pushButton_34.clicked.connect(lambda : self.insert_piece(3,0))
+        self.ui.pushButton_44d.clicked.connect(lambda : self.insert_piece(4,0))
+        self.ui.pushButton_00l.clicked.connect(lambda : self.insert_piece(0,90))
+        self.ui.pushButton_01.clicked.connect(lambda : self.insert_piece(1,90))
+        self.ui.pushButton_02.clicked.connect(lambda : self.insert_piece(2,90))
+        self.ui.pushButton_03.clicked.connect(lambda : self.insert_piece(3,90))
+        self.ui.pushButton_04l.clicked.connect(lambda : self.insert_piece(4,90))
+        self.ui.pushButton_00u.clicked.connect(lambda : self.insert_piece(0,180))
+        self.ui.pushButton_10.clicked.connect(lambda : self.insert_piece(1,180))
+        self.ui.pushButton_30.clicked.connect(lambda : self.insert_piece(3,180))
+        self.ui.pushButton_40u.clicked.connect(lambda : self.insert_piece(4,180))
+        self.ui.pushButton_40r.clicked.connect(lambda : self.insert_piece(0,270))
+        self.ui.pushButton_41.clicked.connect(lambda : self.insert_piece(1,270))
+        self.ui.pushButton_42.clicked.connect(lambda : self.insert_piece(2,270))
+        self.ui.pushButton_43.clicked.connect(lambda : self.insert_piece(3,270))
+        self.ui.pushButton_44r.clicked.connect(lambda : self.insert_piece(4,270))
 
         #add bg image to all case
         for i in range(self.ui.Board.count()):
@@ -103,19 +103,13 @@ class SiamGame(QtWidgets.QMainWindow):
         for button in self.ui.direction_insert.buttons():
             button.show()
 
-    def insert_piece(self,y,x,dir=None):
+    def insert_piece(self,pos,dir=None):
 
-        if dir == None:
-            if x==0:
-                dir = 180
-            elif x==4:
-                dir = 0
-            elif y == 0:
-                dir = 90
-            elif y==4:
-                dir = 270
 
-        self.board.insert2(x,y,dir)
+        print(pos,dir)
+
+        # self.board.insert(x,y,dir)
+        self.board.insert(dir,pos)
 
 
     def turn_piece(self):
