@@ -98,31 +98,57 @@ class SiamGame(QtWidgets.QMainWindow):
         # button.setIconSize(QtCore.QSize(70,70))
 
 
+
+    def choice_raz(self):
+
+        for button in self.ui.direction_insert.buttons():
+            button.hide()
+
+    def end_turn(self):
+
+
+
+
+
+        for i in range(self.ui.ActionSelector.count()):
+            self.ui.ActionSelector.itemAt(i).widget().setAutoExclusive(False)
+            self.ui.ActionSelector.itemAt(i).widget().setChecked(False)
+            self.ui.ActionSelector.itemAt(i).widget().setAutoExclusive(True)
+
+        self.choice_raz()
+        print("TOUR FINI")
+
     def choose_insert(self):
+
+        self.choice_raz()
 
         for button in self.ui.direction_insert.buttons():
             button.show()
 
     def insert_piece(self,pos,dir=None):
 
+        self.choice_raz()
 
         print(pos,dir)
 
         # self.board.insert(x,y,dir)
         self.board.insert(dir,pos)
 
+        self.end_turn()
+
 
     def turn_piece(self):
-        for button in self.ui.direction_insert.buttons():
-            button.hide()
+        self.choice_raz()
+
 
         # self.rhinopix = self.rhinopix.transformed(QtGui.QTransform().rotate(90))
 
         print('u want to turn a piece')
 
     def move_turn_piece(self):
-        for button in self.ui.direction_insert.buttons():
-            button.hide()
+
+        self.choice_raz()
+
         print('u want to move & turn a piece')
 
 
