@@ -3,6 +3,7 @@ from PyQt5 import QtGui, QtCore, QtWidgets, uic
 from interface import Ui_MainWindow
 
 
+
 # l'approche par héritage simple de la classe QMainWindow (même type de notre fenêtre
 # créée avec QT Designer. Nous configurons après l'interface utilisateur
 # dans le constructeur (la méthode init()) de notre classe
@@ -42,7 +43,7 @@ class SiamGame(QtWidgets.QMainWindow):
         self.ui.case43.clicked.connect(lambda : self.case_choice(self.ui.case43))
         self.ui.case44.clicked.connect(lambda : self.case_choice(self.ui.case44))
 
-
+        # connect insertion button
         self.ui.pushButton_04d.clicked.connect(lambda : self.insert_piece(0,0))
         self.ui.pushButton_14.clicked.connect(lambda : self.insert_piece(1,0))
         self.ui.pushButton_34.clicked.connect(lambda : self.insert_piece(3,0))
@@ -62,17 +63,29 @@ class SiamGame(QtWidgets.QMainWindow):
         self.ui.pushButton_43.clicked.connect(lambda : self.insert_piece(3,270))
         self.ui.pushButton_44r.clicked.connect(lambda : self.insert_piece(4,270))
 
+        #connect direction selector buttons
+        self.ui.up.clicked.connect(lambda :self.case_choice(self.ui.up))
+        self.ui.down.clicked.connect(lambda :self.case_choice(self.ui.down))
+        self.ui.left.clicked.connect(lambda :self.case_choice(self.ui.left))
+        self.ui.right.clicked.connect(lambda :self.case_choice(self.ui.right))
+
         #add bg image to all case
         for i in range(self.ui.Board.count()):
                 self.ui.Board.itemAt(i).widget().setStyleSheet("background-image : url(img/ground.jpeg)")
 
 
+        #connect action selector buttons
         self.ui.RButton_insert.toggled.connect(self.choose_insert)
-        self.ui.RButton_turn.toggled.connect(self.turn_piece)
+        self.ui.RButton_turn.toggled.connect(self.choose_turn)
         self.ui.RButton_move_turn.toggled.connect(self.move_turn_piece)
 
-        for button in self.ui.direction_insert.buttons():
-            button.hide()
+
+        self.ui.textBrowser.setText("Au tour des Elephants")
+
+
+
+
+        self.choice_raz()
 
 
 
@@ -81,13 +94,35 @@ class SiamGame(QtWidgets.QMainWindow):
         y = button.x()%70//6 - 1
         x = button.y()%70//6 - 1
 
-        print(x,y)
-
         action = self.get_action()
 
-        if action >=0 :
-            if action == 0 :
-                self.insert_piece(x,y)
+        if action == 1 :
+            if self.selected_piece == None  :
+                self.selected_piece = self.board[x,y]
+
+                if self.board.verify_piece(self.selected_piece) :
+                    for button in self.ui.direction_selector.buttons():
+                        button.show()
+                else :
+                    print("TUPEUXPASS SALOOP")
+                    self.choice_raz()
+                    return
+
+
+            else :
+                button_name = button.objectName()
+                if button_name == 'up':
+                    new_dir = 0
+                elif button_name == 'down':
+                    new_dir = 180
+                elif button_name == 'right' :
+                    new_dir = 90
+                elif button_name == 'left' :
+                    new_dir = 270
+
+                self.turn_piece(self.selected_piece,new_dir)
+
+
 
         # button.setStyleSheet("background-image : url(rhino.jpeg);")
         # button.setIcon(QtGui.QIcon('rhino.jpeg'))
@@ -98,52 +133,60 @@ class SiamGame(QtWidgets.QMainWindow):
         # button.setIconSize(QtCore.QSize(70,70))
 
 
+    def verify_piece(self,piece):
+
+        if self.board.tour_elephant == True and type(piece)==pion.Elephant :
+            print("OKKKKK")
+
 
     def choice_raz(self):
 
+        #hide all optionnal buttons
         for button in self.ui.direction_insert.buttons():
             button.hide()
+        for button in self.ui.direction_selector.buttons():
+            button.hide()
+
+        #no piece is selected
+        self.selected_piece = None
+
 
     def end_turn(self):
-
-
-
-
-
+        #décoche toutes les cases de sélection d'action
         for i in range(self.ui.ActionSelector.count()):
             self.ui.ActionSelector.itemAt(i).widget().setAutoExclusive(False)
             self.ui.ActionSelector.itemAt(i).widget().setChecked(False)
             self.ui.ActionSelector.itemAt(i).widget().setAutoExclusive(True)
 
+        self.board.next_turn()
+
         self.choice_raz()
-        print("TOUR FINI")
+        self.ui.textBrowser.append("Tour fini")
+        self.ui.textBrowser.append("")
+        self.ui.textBrowser.append("----------------")
+        self.ui.textBrowser.append("")
+
+        if self.board.tour_elephant :
+            self.ui.textBrowser.append("Au tour des Elephants")
+        else :
+            self.ui.textBrowser.append("Au tour des Rhinocéros")
 
     def choose_insert(self):
-
         self.choice_raz()
-
         for button in self.ui.direction_insert.buttons():
             button.show()
 
-    def insert_piece(self,pos,dir=None):
-
+    def choose_turn(self):
         self.choice_raz()
 
-        print(pos,dir)
-
-        # self.board.insert(x,y,dir)
+    def insert_piece(self,pos,dir=None):
         self.board.insert(dir,pos)
-
         self.end_turn()
 
-
-    def turn_piece(self):
-        self.choice_raz()
-
-
-        # self.rhinopix = self.rhinopix.transformed(QtGui.QTransform().rotate(90))
-
-        print('u want to turn a piece')
+    def turn_piece(self,piece,dir):
+        piece.turn(dir)
+        print(self.board)
+        self.end_turn()
 
     def move_turn_piece(self):
 
@@ -156,7 +199,7 @@ class SiamGame(QtWidgets.QMainWindow):
         """
         return the action selected : 0 --> insert
                                      1 --> turn
-                                     3 --> move and turn
+                                     2 --> move and turn
                                      -1 --> no action selected
 
         """
@@ -171,7 +214,6 @@ if __name__ == "__main__":
     tour_elep = True
 
     plateau = board.Board((5,5),dtype=object)
-
     app = QtWidgets.QApplication(sys.argv)
     window = SiamGame(plateau)
     window.show()

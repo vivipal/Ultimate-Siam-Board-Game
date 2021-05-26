@@ -213,7 +213,6 @@ class Board(np.ndarray):
             self.update()
             self.set_pion(p)
             self.update()
-            self.next_turn()
         else :
             print("-------------")
             print("IMPOSSIBLE")
@@ -268,3 +267,10 @@ class Board(np.ndarray):
                 y = True
                 break
         return y
+
+    def verify_piece(self,piece):
+        if self.tour_elephant == True and type(piece)==pion.Elephant :
+            return 1
+        elif self.tour_elephant == False and type(piece)==pion.Rhino :
+            return 1
+        else : return 0

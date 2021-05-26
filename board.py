@@ -252,29 +252,29 @@ class Board(np.ndarray):
         return check, new_L, p
 
 
-    def insert2(self,x,y,dir):
-        """
-        Insère un nouveau pion sur le plateau, pousse les autres si nécessaire
-
-        x num ligne
-        y num col
-        dir direction [0,90,180,270]
-        """
-
-        if self.tour_elephant == True:
-            p = pion.Elephant(x,y,dir)
-        else:
-            p = pion.Rhino(x,y,dir)
-
-        if self[x,y] == None :
-
-            self.set_pion(p)
-        else : #pas encore implémenter // SI LA CASE EST OCCUPE
-            pass
-
-        self.update()
-
-        print(self.__str__())
+    # def insert2(self,x,y,dir):
+    #     """
+    #     Insère un nouveau pion sur le plateau, pousse les autres si nécessaire
+    #
+    #     x num ligne
+    #     y num col
+    #     dir direction [0,90,180,270]
+    #     """
+    #
+    #     if self.tour_elephant == True:
+    #         p = pion.Elephant(x,y,dir)
+    #     else:
+    #         p = pion.Rhino(x,y,dir)
+    #
+    #     if self[x,y] == None :
+    #
+    #         self.set_pion(p)
+    #     else : #pas encore implémenter // SI LA CASE EST OCCUPE
+    #         pass
+    #
+    #     self.update()
+    #
+    #     print(self.__str__())
 
 
     def set_pion(self, pion):
