@@ -41,6 +41,7 @@ class SiamGame(QtWidgets.QMainWindow):
         # connect insertion button
         self.ui.pushButton_04d.clicked.connect(lambda : self.insert_piece(0,0))
         self.ui.pushButton_14.clicked.connect(lambda : self.insert_piece(1,0))
+        self.ui.pushButton_24.clicked.connect(lambda : self.insert_piece(2,0))
         self.ui.pushButton_34.clicked.connect(lambda : self.insert_piece(3,0))
         self.ui.pushButton_44d.clicked.connect(lambda : self.insert_piece(4,0))
         self.ui.pushButton_00l.clicked.connect(lambda : self.insert_piece(0,90))
@@ -50,6 +51,7 @@ class SiamGame(QtWidgets.QMainWindow):
         self.ui.pushButton_04l.clicked.connect(lambda : self.insert_piece(4,90))
         self.ui.pushButton_00u.clicked.connect(lambda : self.insert_piece(0,180))
         self.ui.pushButton_10.clicked.connect(lambda : self.insert_piece(1,180))
+        self.ui.pushButton_20.clicked.connect(lambda : self.insert_piece(2,180))
         self.ui.pushButton_30.clicked.connect(lambda : self.insert_piece(3,180))
         self.ui.pushButton_40u.clicked.connect(lambda : self.insert_piece(4,180))
         self.ui.pushButton_40r.clicked.connect(lambda : self.insert_piece(0,270))
@@ -123,6 +125,7 @@ class SiamGame(QtWidgets.QMainWindow):
         décoche toutes les cases de sélection d'action
         """
 
+
         for i in range(self.ui.ActionSelector.count()):
             self.ui.ActionSelector.itemAt(i).widget().setAutoExclusive(False)
             self.ui.ActionSelector.itemAt(i).widget().setChecked(False)
@@ -166,7 +169,12 @@ class SiamGame(QtWidgets.QMainWindow):
 
         if self.board.check_insert():
             for button in self.ui.direction_insert.buttons():
-                button.show()
+
+                if self.board.nb_tour <=4  and button.objectName()[11:] in ('20','24'):
+                    pass
+
+                else :
+                    button.show()
         else :
             self.uncheck_action_selector()
             self.ui.textBrowser.append("Tu ne peux pas ajouter une nouvelle pièce.")

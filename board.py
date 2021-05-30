@@ -12,6 +12,7 @@ class Board(np.ndarray):
         size tuple represent the size of the board game.
         """
         self.tour_elephant = True
+        self.nb_tour = 0
 
         self[2,1]=pion.Rocher(2,1)
         self[2,2]=pion.Rocher(2,2)
@@ -110,6 +111,7 @@ class Board(np.ndarray):
 
     def next_turn(self):
         self.tour_elephant = not self.tour_elephant
+        self.nb_tour += 1
 
     def move_check(self,Lraw,direction):
         """
