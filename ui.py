@@ -69,9 +69,6 @@ class SiamGame(QtWidgets.QMainWindow):
         self.ui.left.clicked.connect(lambda :self.case_choice(self.ui.left))
         self.ui.right.clicked.connect(lambda :self.case_choice(self.ui.right))
 
-        #add bg image to all case
-        for i in range(self.ui.Board.count()):
-                self.ui.Board.itemAt(i).widget().setStyleSheet("background-image : url(img/ground.jpeg)")
 
 
         #connect action selector buttons
@@ -91,6 +88,11 @@ class SiamGame(QtWidgets.QMainWindow):
 
     def case_choice(self,button):
 
+        """
+        methode appellé lors d'un appui sur une case
+        si une action (bouger ou tourner) est selectionnée, ça lance la fonction correspondante
+        """
+
         y = button.x()%70//6 - 1
         x = button.y()%70//6 - 1
 
@@ -103,22 +105,12 @@ class SiamGame(QtWidgets.QMainWindow):
 
 
 
-        # button.setStyleSheet("background-image : url(rhino.jpeg);")
-        # button.setIcon(QtGui.QIcon('rhino.jpeg'))
-
-
-        # self.rhinopix = QtGui.QPixmap("rhino.jpeg")
-        # button.setIcon(QtGui.QIcon(self.rhinopix))
-        # button.setIconSize(QtCore.QSize(70,70))
-
-
-    def verify_piece(self,piece):
-
-        if self.board.tour_elephant == True and type(piece)==pion.Elephant :
-            print("OKKKKK")
-
-
     def choice_raz(self):
+
+        """
+        cache tous les boutons inutile (choix direction et choix insertion)
+        et remet à NULL la variable de choix de piece
+        """
 
         #hide all optionnal buttons
         for button in self.ui.direction_insert.buttons():
@@ -141,14 +133,22 @@ class SiamGame(QtWidgets.QMainWindow):
 
 
     def end_turn(self):
+        """
+        met fin à un tour :
+            - met a jour l'affichage du plateau
+            - décoche l'action selectionné
+            - raz des choix
+            - met a jour la variable du joueur qui doit jouer
+            - affiche infos dans l'UI
+        """
 
         self.update_ui()
 
         self.uncheck_action_selector()
+        self.choice_raz()
 
         self.board.next_turn()
 
-        self.choice_raz()
         self.ui.textBrowser.append("Tour fini")
         self.ui.textBrowser.append("")
         self.ui.textBrowser.append("----------------")
@@ -160,6 +160,11 @@ class SiamGame(QtWidgets.QMainWindow):
             self.ui.textBrowser.append("Au tour des Rhinocéros")
 
     def choose_insert(self):
+
+        """
+        raz des choix deja fait
+        et affiche les boutons pour inserer une piece ssi le joueur peut encore en ajouter
+        """
         self.choice_raz()
 
         if self.board.check_insert():
@@ -170,20 +175,31 @@ class SiamGame(QtWidgets.QMainWindow):
             self.ui.textBrowser.append("Tu ne peux pas ajouter une nouvelle pièce.")
 
     def choose_turn(self):
+        """
+        raz des choix deja fait
+        """
         self.choice_raz()
 
     def turn(self,x,y,button):
-        if self.selected_piece == None  :
+        """
+        méthode appellé lorsque l'on veut tourner une piece
+            -dans un premier temps si aucune piece n'a été sélectionné avant, on stocke la piece
+            -ensuite lors du 2eme appel on fait tourner la piece
+        """
+
+        if self.selected_piece == None  : #si aucune piece n'a deja était selectionné
             self.selected_piece = self.board[x,y]
 
             if self.board.verify_piece(self.selected_piece) :
                 for button in self.ui.direction_selector.buttons():
                     button.show()
             else :
-                print("TUPEUXPASS SALOOP")
+                self.ui.textBrowser.append("Cette piece ne t'appartient pas")
+                self.ui.textBrowser.append("Recommencez votre tour")
+
                 self.choice_raz()
                 return
-        else :
+        else :  #si une piece a été selectionné on regarde dans quelle direction la tourner et on la tourne
             button_name = button.objectName()
             if button_name == 'up':
                 new_dir = 0
@@ -198,29 +214,45 @@ class SiamGame(QtWidgets.QMainWindow):
 
 
     def insert_piece(self,pos,dir=None):
+        """
+        on insert la piece et on  met fin au tour
+        """
+
         self.board.insert(dir,pos)
         self.end_turn()
 
     def turn_piece(self,piece,dir):
+        """
+        on tourne la piece et on met fin au tour
+        """
+
         piece.turn(dir)
         print(self.board)
         self.end_turn()
 
     def choose_move_turn_piece(self):
+        """
+        raz des choix deja fait
+        """
         self.choice_raz()
 
     def move(self,x,y,button):
-        if self.selected_piece == None  :
+        """
+        méthode appellée lorsque l'on veut bouger une piece
+            -dans un premier temps si aucune piece n'a été sélectionné avant, on stocke la piece
+            -ensuite lors du 2eme appel on fait bouger la piece
+        """
+        if self.selected_piece == None  :#si aucune piece n'a deja était selectionné
             self.selected_piece = self.board[x,y]
 
             if self.board.verify_piece(self.selected_piece) :
                 for button in self.ui.direction_selector.buttons():
                     button.show()
             else :
-                print("TUPEUXPASS SALOOP")
+                self.ui.textBrowser.append("Cette piece ne t'appartient pas")
                 self.choice_raz()
                 return
-        else :
+        else :  #si une piece a été selectionné on regarde dans quelle direction l'avancer et on la bouge
             button_name = button.objectName()
             try :
                 if button_name == 'up':
@@ -235,16 +267,22 @@ class SiamGame(QtWidgets.QMainWindow):
             except :
                 self.ui.textBrowser.append("Choisir la direction avec les cases prévus")
                 self.ui.textBrowser.append("Recommencer votre tour")
+                self.choice_raz()
 
 
     def move_piece(self,piece,dir):
+        """
+        Bouge une piece si le mouvement peut se faire
+        """
         info_move = self.board.move(piece,dir)
         if info_move[1]:  #regarde si le mouvement a pu se faire ou pas
             print(self.board)
             self.end_turn()
         else :
             self.ui.textBrowser.append("Tu ne peux pas faire ce mouvement")
+            self.ui.textBrowser.append("Recommencez votre tour")
             self.choice_raz()
+
     def get_action(self):
         """
         return the action selected : 0 --> insert
@@ -259,9 +297,8 @@ class SiamGame(QtWidgets.QMainWindow):
         return -1
 
     def update_ui(self):
-
         """
-        place les images de rocher/elephant/rhino en fonction de la board
+        place les images de rocher/elephant/rhino en fonction de leur psoition sur le plateau
         """
 
         for i,elm in enumerate(self.board.ravel()):
@@ -287,15 +324,3 @@ class SiamGame(QtWidgets.QMainWindow):
                 pixmap = QtGui.QPixmap('img/ground.jpeg')
                 button.setIcon(QtGui.QIcon(pixmap))
                 button.setIconSize(QtCore.QSize(70,70))
-
-
-if __name__ == "__main__":
-
-    ingame = True
-    tour_elep = True
-
-    plateau = board.Board((5,5),dtype=object)
-    app = QtWidgets.QApplication(sys.argv)
-    window = SiamGame(plateau)
-    window.show()
-    app.exec_()
