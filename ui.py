@@ -3,11 +3,6 @@ from PyQt5 import QtGui, QtCore, QtWidgets, uic
 from interface import Ui_MainWindow
 
 
-
-# l'approche par héritage simple de la classe QMainWindow (même type de notre fenêtre
-# créée avec QT Designer. Nous configurons après l'interface utilisateur
-# dans le constructeur (la méthode init()) de notre classe
-
 class SiamGame(QtWidgets.QMainWindow):
     def __init__(self,board):
         super().__init__()
