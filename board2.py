@@ -64,6 +64,17 @@ class Board(np.ndarray):
             if type(p) == pion.Rocher:
                 nb += 1
         return nb
+    def check_insert(self):
+        """
+        Permet de savoir si le joueur en cours peut encore ajouter une pièce sur le plateau
+        """
+
+        if self.tour_elephant and self.nb_elephant()>=5 :
+            return 0
+        elif not self.tour_elephant and self.nb_rhino()>=5 :
+            return 0
+        else :
+            return 1
 
     def set_pion(self, pion):
         """

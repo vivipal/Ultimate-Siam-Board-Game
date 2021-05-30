@@ -150,13 +150,20 @@ class SiamGame(QtWidgets.QMainWindow):
         #no piece is selected
         self.selected_piece = None
 
+    def uncheck_action_selector(self):
+        """
+        décoche toutes les cases de sélection d'action
+        """
 
-    def end_turn(self):
-        #décoche toutes les cases de sélection d'action
         for i in range(self.ui.ActionSelector.count()):
             self.ui.ActionSelector.itemAt(i).widget().setAutoExclusive(False)
             self.ui.ActionSelector.itemAt(i).widget().setChecked(False)
             self.ui.ActionSelector.itemAt(i).widget().setAutoExclusive(True)
+
+
+    def end_turn(self):
+
+        self.uncheck_action_selector()
 
         self.board.next_turn()
 
@@ -173,8 +180,13 @@ class SiamGame(QtWidgets.QMainWindow):
 
     def choose_insert(self):
         self.choice_raz()
-        for button in self.ui.direction_insert.buttons():
-            button.show()
+
+        if self.board.check_insert():
+            for button in self.ui.direction_insert.buttons():
+                button.show()
+        else :
+            self.uncheck_action_selector()
+            self.ui.textBrowser.append("Tu ne peux pas ajouter une nouvelle pièce.")
 
     def choose_turn(self):
         self.choice_raz()
