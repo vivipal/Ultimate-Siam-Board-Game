@@ -184,15 +184,16 @@ class Board(np.ndarray):
 
         Lraw=np.array(Lraw)
         new_L, y = self.move_check(Lraw, direction)
-        W = []
+        W = ''
 
         if y:
             for pion_bouge in new_L:
                 pion_bouge.move(direction)
                 if type(pion_bouge)==pion.Rocher and not (0>pion_bouge.x>4 and 0>pion_bouge.y>4):
-                    for pion_win in new_L[::-1]:
-                        if type(pion_bouge)!=pion.Rocher and pion_win.orientation == direction:
-                            W = [type(pion_win)]
+                    for pion_win in new_L:
+
+                        if type(pion_win)!=pion.Rocher and pion_win.orientation == direction:
+                            W = [pion_win]
 
 
         self.update()
