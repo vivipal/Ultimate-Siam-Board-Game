@@ -1,5 +1,5 @@
 import pion
-from board2 import Board
+from board import Board
 from interface import Ui_MainWindow
 from ui import SiamGame
 

@@ -1,4 +1,5 @@
 __pycache__
 *.ui
 old_board.py
+game.py
 __media__
