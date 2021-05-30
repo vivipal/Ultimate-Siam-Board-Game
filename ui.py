@@ -74,7 +74,7 @@ class SiamGame(QtWidgets.QMainWindow):
         self.ui.RButton_move_turn.toggled.connect(self.choose_move_turn_piece)
 
 
-        self.ui.textBrowser.setText("Au tour des Elephants")
+        self.ui.textBrowser.setText("0 - Au tour des Elephants")
 
         self.update_ui()
 
@@ -155,9 +155,9 @@ class SiamGame(QtWidgets.QMainWindow):
         self.ui.textBrowser.append("")
 
         if self.board.tour_elephant :
-            self.ui.textBrowser.append("Au tour des Elephants")
+            self.ui.textBrowser.append("{} - Au tour des Elephants".format(self.board.nb_tour))
         else :
-            self.ui.textBrowser.append("Au tour des Rhinocéros")
+            self.ui.textBrowser.append("{} - Au tour des Rhinocéros".format(self.board.nb_tour))
 
     def choose_insert(self):
 
@@ -218,12 +218,15 @@ class SiamGame(QtWidgets.QMainWindow):
             self.turn_piece(self.selected_piece,new_dir)
 
 
+
     def insert_piece(self,pos,dir=None):
         """
         on insert la piece et on  met fin au tour
         """
 
-        self.board.insert(dir,pos)
+        x,y = self.board.insert(dir,pos)
+        self.ui.textBrowser.append("Pion inséré en {},{}".format(x,y))
+
         self.end_turn()
 
     def turn_piece(self,piece,dir):
@@ -233,6 +236,7 @@ class SiamGame(QtWidgets.QMainWindow):
 
         piece.turn(dir)
         print(self.board)
+        self.ui.textBrowser.append("Pion tourné en {},{} vers {}".format(self.selected_piece.x,self.selected_piece.y,dir))
         self.end_turn()
 
     def choose_move_turn_piece(self):
@@ -253,6 +257,7 @@ class SiamGame(QtWidgets.QMainWindow):
             if self.selected_piece == None  :#si aucune piece n'a deja était selectionné
                 self.selected_piece = self.board[x,y]
 
+
                 if self.board.verify_piece(self.selected_piece) :
                     for button in self.ui.direction_selector.buttons():
                         button.show()
@@ -271,7 +276,10 @@ class SiamGame(QtWidgets.QMainWindow):
                         new_dir = 90
                     elif button_name == 'left' :
                         new_dir = 270
+                    old_pos = self.selected_piece.x,self.selected_piece.y
                     self.move_piece(self.selected_piece,new_dir)
+                    self.ui.textBrowser.append("Pion bougé de {},{} en {},{}".format(old_pos[0],old_pos[1],self.selected_piece.x,self.selected_piece.y))
+
                     self.turn_after_move = True
                 else :
                     self.ui.textBrowser.append("Choisir la direction avec les cases prévus")
@@ -368,7 +376,7 @@ class SiamGame(QtWidgets.QMainWindow):
         self.update_ui()
         self.choice_raz()
         self.uncheck_action_selector()
-        self.ui.textBrowser.setText("Au tour des Eléphants")
+        self.ui.textBrowser.setText("0 - Au tour des Eléphants")
         self.board.tour_elephant = True
 
 

@@ -234,6 +234,7 @@ class Board(np.ndarray):
             self.update()
             self.set_pion(p)
             self.update()
+            return p.x,p.y
         else :
             print("-------------")
             print("IMPOSSIBLE")

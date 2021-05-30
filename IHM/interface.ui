@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>681</width>
+    <width>890</width>
     <height>633</height>
    </rect>
   </property>
@@ -22,8 +22,8 @@
      <rect>
       <x>480</x>
       <y>220</y>
-      <width>220</width>
-      <height>269</height>
+      <width>381</width>
+      <height>321</height>
      </rect>
     </property>
    </widget>
@@ -601,7 +601,7 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>510</x>
+      <x>620</x>
       <y>30</y>
       <width>134</width>
       <height>134</height>
@@ -625,6 +625,10 @@
        <property name="text">
         <string/>
        </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>img/arrow_up.jpeg</normaloff>img/arrow_up.jpeg</iconset>
+       </property>
        <attribute name="buttonGroup">
         <string notr="true">direction_selector</string>
        </attribute>
@@ -646,6 +650,10 @@
        </property>
        <property name="text">
         <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>img/arrow_right.jpeg</normaloff>img/arrow_right.jpeg</iconset>
        </property>
        <attribute name="buttonGroup">
         <string notr="true">direction_selector</string>
@@ -669,6 +677,10 @@
        <property name="text">
         <string/>
        </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>img/arrow_left.jpeg</normaloff>img/arrow_left.jpeg</iconset>
+       </property>
        <attribute name="buttonGroup">
         <string notr="true">direction_selector</string>
        </attribute>
@@ -690,6 +702,10 @@
        </property>
        <property name="text">
         <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>img/arrow_down.jpeg</normaloff>img/arrow_down.jpeg</iconset>
        </property>
        <attribute name="buttonGroup">
         <string notr="true">direction_selector</string>
@@ -746,6 +762,10 @@
     <property name="text">
      <string/>
     </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_up.jpeg</normaloff>img/arrow_up.jpeg</iconset>
+    </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
     </attribute>
@@ -764,6 +784,10 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_up.jpeg</normaloff>img/arrow_up.jpeg</iconset>
     </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
@@ -784,6 +808,10 @@
     <property name="text">
      <string/>
     </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_right.jpeg</normaloff>img/arrow_right.jpeg</iconset>
+    </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
     </attribute>
@@ -802,6 +830,10 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_up.jpeg</normaloff>img/arrow_up.jpeg</iconset>
     </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
@@ -822,6 +854,10 @@
     <property name="text">
      <string/>
     </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_up.jpeg</normaloff>img/arrow_up.jpeg</iconset>
+    </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
     </attribute>
@@ -840,6 +876,10 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_right.jpeg</normaloff>img/arrow_right.jpeg</iconset>
     </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
@@ -860,6 +900,10 @@
     <property name="text">
      <string/>
     </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_right.jpeg</normaloff>img/arrow_right.jpeg</iconset>
+    </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
     </attribute>
@@ -876,8 +920,15 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_right.jpeg</normaloff>img/arrow_right.jpeg</iconset>
     </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
@@ -898,6 +949,10 @@
     <property name="text">
      <string/>
     </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_right.jpeg</normaloff>img/arrow_right.jpeg</iconset>
+    </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
     </attribute>
@@ -916,6 +971,10 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_left.jpeg</normaloff>img/arrow_left.jpeg</iconset>
     </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
@@ -936,6 +995,10 @@
     <property name="text">
      <string/>
     </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_left.jpeg</normaloff>img/arrow_left.jpeg</iconset>
+    </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
     </attribute>
@@ -955,6 +1018,10 @@
     <property name="text">
      <string/>
     </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_left.jpeg</normaloff>img/arrow_left.jpeg</iconset>
+    </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
     </attribute>
@@ -973,6 +1040,10 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_left.jpeg</normaloff>img/arrow_left.jpeg</iconset>
     </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
@@ -995,6 +1066,10 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_down.jpeg</normaloff>img/arrow_down.jpeg</iconset>
     </property>
     <property name="checkable">
      <bool>false</bool>
@@ -1027,6 +1102,10 @@
     <property name="text">
      <string/>
     </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_down.jpeg</normaloff>img/arrow_down.jpeg</iconset>
+    </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
     </attribute>
@@ -1045,6 +1124,10 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_left.jpeg</normaloff>img/arrow_left.jpeg</iconset>
     </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
@@ -1065,6 +1148,10 @@
     <property name="text">
      <string/>
     </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_down.jpeg</normaloff>img/arrow_down.jpeg</iconset>
+    </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
     </attribute>
@@ -1083,6 +1170,10 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_down.jpeg</normaloff>img/arrow_down.jpeg</iconset>
     </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
@@ -1103,6 +1194,10 @@
     <property name="text">
      <string/>
     </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_up.jpeg</normaloff>img/arrow_up.jpeg</iconset>
+    </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
     </attribute>
@@ -1122,6 +1217,10 @@
     <property name="text">
      <string/>
     </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>img/arrow_down.jpeg</normaloff>img/arrow_down.jpeg</iconset>
+    </property>
     <attribute name="buttonGroup">
      <string notr="true">direction_insert</string>
     </attribute>
@@ -1132,7 +1231,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>681</width>
+     <width>890</width>
      <height>22</height>
     </rect>
    </property>
@@ -1142,7 +1241,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="direction_insert"/>
   <buttongroup name="direction_selector"/>
+  <buttongroup name="direction_insert"/>
  </buttongroups>
 </ui>
