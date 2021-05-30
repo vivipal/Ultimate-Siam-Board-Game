@@ -115,6 +115,8 @@ class SiamGame(QtWidgets.QMainWindow):
 
         #no piece is selected
         self.selected_piece = None
+        #have to turn after a move
+        self.turn_after_move = False
 
     def uncheck_action_selector(self):
         """
@@ -236,18 +238,38 @@ class SiamGame(QtWidgets.QMainWindow):
         méthode appellée lorsque l'on veut bouger une piece
             -dans un premier temps si aucune piece n'a été sélectionné avant, on stocke la piece
             -ensuite lors du 2eme appel on fait bouger la piece
+            -finalement on oriente la piece comme demandé
         """
-        if self.selected_piece == None  :#si aucune piece n'a deja était selectionné
-            self.selected_piece = self.board[x,y]
 
-            if self.board.verify_piece(self.selected_piece) :
-                for button in self.ui.direction_selector.buttons():
-                    button.show()
-            else :
-                self.ui.textBrowser.append("Cette piece ne t'appartient pas")
-                self.choice_raz()
-                return
-        else :  #si une piece a été selectionné on regarde dans quelle direction l'avancer et on la bouge
+        if not self.turn_after_move :
+            if self.selected_piece == None  :#si aucune piece n'a deja était selectionné
+                self.selected_piece = self.board[x,y]
+
+                if self.board.verify_piece(self.selected_piece) :
+                    for button in self.ui.direction_selector.buttons():
+                        button.show()
+                else :
+                    self.ui.textBrowser.append("Cette piece ne t'appartient pas")
+                    self.choice_raz()
+                    return
+            elif self.selected_piece != None and not self.turn_after_move:  #si une piece a été selectionné et qu'on a pas encore bougé on regarde dans quelle direction l'avancer et on la bouge
+                button_name = button.objectName()
+                try :
+                    if button_name == 'up':
+                        new_dir = 0
+                    elif button_name == 'down':
+                        new_dir = 180
+                    elif button_name == 'right' :
+                        new_dir = 90
+                    elif button_name == 'left' :
+                        new_dir = 270
+                    self.move_piece(self.selected_piece,new_dir)
+                    self.turn_after_move = True
+                except :
+                    self.ui.textBrowser.append("Choisir la direction avec les cases prévus")
+                    self.ui.textBrowser.append("Recommencez votre tour")
+                    self.choice_raz()
+        else : # on a bougé on veut mtn la nouvelle direction
             button_name = button.objectName()
             try :
                 if button_name == 'up':
@@ -258,11 +280,11 @@ class SiamGame(QtWidgets.QMainWindow):
                     new_dir = 90
                 elif button_name == 'left' :
                     new_dir = 270
-                self.move_piece(self.selected_piece,new_dir)
+                self.turn_piece(self.selected_piece,new_dir)
             except :
-                self.ui.textBrowser.append("Choisir la direction avec les cases prévus")
-                self.ui.textBrowser.append("Recommencer votre tour")
-                self.choice_raz()
+                self.ui.textBrowser.append("Vous decvez choisir l'orientation final pour finir votre tour")
+
+
 
 
     def move_piece(self,piece,dir):
@@ -271,8 +293,9 @@ class SiamGame(QtWidgets.QMainWindow):
         """
         info_move = self.board.move(piece,dir)
         if info_move[1]:  #regarde si le mouvement a pu se faire ou pas
-            print(self.board)
-            self.end_turn()
+            # print(self.board)
+            # self.end_turn()
+            print("move done now y have to turn")
         else :
             self.ui.textBrowser.append("Tu ne peux pas faire ce mouvement")
             self.ui.textBrowser.append("Recommencez votre tour")
