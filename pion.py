@@ -51,6 +51,9 @@ class Pion():
         self.coords = (self.x,new_y)
 
     def move(self, direction):
+        """
+        Fait avancer le pion dans la direction passé en paramètre (0,90,180,270)
+        """
         old_x = self.x
         old_y = self.y
         if direction == 270:

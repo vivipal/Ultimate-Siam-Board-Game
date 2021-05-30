@@ -7,7 +7,7 @@ import sys
 from PyQt5 import QtGui, QtCore, QtWidgets, uic
 
 
-
+#create a new 5x5 board
 board = Board((5,5),dtype=object)
 
 
