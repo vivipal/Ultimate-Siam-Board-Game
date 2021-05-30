@@ -82,7 +82,7 @@ class SiamGame(QtWidgets.QMainWindow):
 
         self.ui.textBrowser.setText("Au tour des Elephants")
 
-
+        self.update_ui()
 
 
         self.choice_raz()
@@ -98,28 +98,6 @@ class SiamGame(QtWidgets.QMainWindow):
 
         if action == 1 :
             self.turn(x,y,button)
-            # if self.selected_piece == None  :
-            #     self.selected_piece = self.board[x,y]
-            #
-            #     if self.board.verify_piece(self.selected_piece) :
-            #         for button in self.ui.direction_selector.buttons():
-            #             button.show()
-            #     else :
-            #         print("TUPEUXPASS SALOOP")
-            #         self.choice_raz()
-            #         return
-            # else :
-            #     button_name = button.objectName()
-            #     if button_name == 'up':
-            #         new_dir = 0
-            #     elif button_name == 'down':
-            #         new_dir = 180
-            #     elif button_name == 'right' :
-            #         new_dir = 90
-            #     elif button_name == 'left' :
-            #         new_dir = 270
-            #
-            #     self.turn_piece(self.selected_piece,new_dir)
         elif action==2 :
             self.move(x,y,button)
 
@@ -163,6 +141,8 @@ class SiamGame(QtWidgets.QMainWindow):
 
 
     def end_turn(self):
+
+        self.update_ui()
 
         self.uncheck_action_selector()
 
@@ -273,6 +253,32 @@ class SiamGame(QtWidgets.QMainWindow):
             if self.ui.ActionSelector.itemAt(i).widget().isChecked():
                 return i
         return -1
+
+    def update_ui(self):
+        for i,elm in enumerate(self.board.ravel()):
+
+            button = self.ui.Board.itemAtPosition(i//5,i%5).widget()
+
+            if elm !=None :
+                img_path = "img/{}.jpeg".format(str(elm))
+
+                pixmap = QtGui.QPixmap(img_path)
+
+                try :
+                    orientation = elm.orientation
+                    transform = QtGui.QTransform().rotate(orientation-90)
+                    pixmap = pixmap.transformed(transform, QtCore.Qt.SmoothTransformation)
+                except:
+                    pass
+
+                button.setIcon(QtGui.QIcon(pixmap))
+                button.setIconSize(QtCore.QSize(70,70))
+            else :
+
+                pixmap = QtGui.QPixmap('img/ground.jpeg')
+                button.setIcon(QtGui.QIcon(pixmap))
+                button.setIconSize(QtCore.QSize(70,70))
+
 
 if __name__ == "__main__":
 
