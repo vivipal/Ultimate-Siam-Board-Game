@@ -222,16 +222,20 @@ class SiamGame(QtWidgets.QMainWindow):
                 return
         else :
             button_name = button.objectName()
-            if button_name == 'up':
-                new_dir = 0
-            elif button_name == 'down':
-                new_dir = 180
-            elif button_name == 'right' :
-                new_dir = 90
-            elif button_name == 'left' :
-                new_dir = 270
+            try :
+                if button_name == 'up':
+                    new_dir = 0
+                elif button_name == 'down':
+                    new_dir = 180
+                elif button_name == 'right' :
+                    new_dir = 90
+                elif button_name == 'left' :
+                    new_dir = 270
+                self.move_piece(self.selected_piece,new_dir)
+            except :
+                self.ui.textBrowser.append("Choisir la direction avec les cases prévus")
+                self.ui.textBrowser.append("Recommencer votre tour")
 
-            self.move_piece(self.selected_piece,new_dir)
 
     def move_piece(self,piece,dir):
         info_move = self.board.move(piece,dir)
@@ -255,6 +259,11 @@ class SiamGame(QtWidgets.QMainWindow):
         return -1
 
     def update_ui(self):
+
+        """
+        place les images de rocher/elephant/rhino en fonction de la board
+        """
+
         for i,elm in enumerate(self.board.ravel()):
 
             button = self.ui.Board.itemAtPosition(i//5,i%5).widget()
