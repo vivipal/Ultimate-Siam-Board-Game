@@ -77,7 +77,7 @@ class SiamGame(QtWidgets.QMainWindow):
         #connect action selector buttons
         self.ui.RButton_insert.toggled.connect(self.choose_insert)
         self.ui.RButton_turn.toggled.connect(self.choose_turn)
-        self.ui.RButton_move_turn.toggled.connect(self.move_turn_piece)
+        self.ui.RButton_move_turn.toggled.connect(self.choose_move_turn_piece)
 
 
         self.ui.textBrowser.setText("Au tour des Elephants")
@@ -97,30 +97,31 @@ class SiamGame(QtWidgets.QMainWindow):
         action = self.get_action()
 
         if action == 1 :
-            if self.selected_piece == None  :
-                self.selected_piece = self.board[x,y]
-
-                if self.board.verify_piece(self.selected_piece) :
-                    for button in self.ui.direction_selector.buttons():
-                        button.show()
-                else :
-                    print("TUPEUXPASS SALOOP")
-                    self.choice_raz()
-                    return
-
-
-            else :
-                button_name = button.objectName()
-                if button_name == 'up':
-                    new_dir = 0
-                elif button_name == 'down':
-                    new_dir = 180
-                elif button_name == 'right' :
-                    new_dir = 90
-                elif button_name == 'left' :
-                    new_dir = 270
-
-                self.turn_piece(self.selected_piece,new_dir)
+            self.turn(x,y,button)
+            # if self.selected_piece == None  :
+            #     self.selected_piece = self.board[x,y]
+            #
+            #     if self.board.verify_piece(self.selected_piece) :
+            #         for button in self.ui.direction_selector.buttons():
+            #             button.show()
+            #     else :
+            #         print("TUPEUXPASS SALOOP")
+            #         self.choice_raz()
+            #         return
+            # else :
+            #     button_name = button.objectName()
+            #     if button_name == 'up':
+            #         new_dir = 0
+            #     elif button_name == 'down':
+            #         new_dir = 180
+            #     elif button_name == 'right' :
+            #         new_dir = 90
+            #     elif button_name == 'left' :
+            #         new_dir = 270
+            #
+            #     self.turn_piece(self.selected_piece,new_dir)
+        elif action==2 :
+            self.move(x,y,button)
 
 
 
@@ -191,6 +192,31 @@ class SiamGame(QtWidgets.QMainWindow):
     def choose_turn(self):
         self.choice_raz()
 
+    def turn(self,x,y,button):
+        if self.selected_piece == None  :
+            self.selected_piece = self.board[x,y]
+
+            if self.board.verify_piece(self.selected_piece) :
+                for button in self.ui.direction_selector.buttons():
+                    button.show()
+            else :
+                print("TUPEUXPASS SALOOP")
+                self.choice_raz()
+                return
+        else :
+            button_name = button.objectName()
+            if button_name == 'up':
+                new_dir = 0
+            elif button_name == 'down':
+                new_dir = 180
+            elif button_name == 'right' :
+                new_dir = 90
+            elif button_name == 'left' :
+                new_dir = 270
+
+            self.turn_piece(self.selected_piece,new_dir)
+
+
     def insert_piece(self,pos,dir=None):
         self.board.insert(dir,pos)
         self.end_turn()
@@ -200,13 +226,41 @@ class SiamGame(QtWidgets.QMainWindow):
         print(self.board)
         self.end_turn()
 
-    def move_turn_piece(self):
-
+    def choose_move_turn_piece(self):
         self.choice_raz()
 
-        print('u want to move & turn a piece')
+    def move(self,x,y,button):
+        if self.selected_piece == None  :
+            self.selected_piece = self.board[x,y]
 
+            if self.board.verify_piece(self.selected_piece) :
+                for button in self.ui.direction_selector.buttons():
+                    button.show()
+            else :
+                print("TUPEUXPASS SALOOP")
+                self.choice_raz()
+                return
+        else :
+            button_name = button.objectName()
+            if button_name == 'up':
+                new_dir = 0
+            elif button_name == 'down':
+                new_dir = 180
+            elif button_name == 'right' :
+                new_dir = 90
+            elif button_name == 'left' :
+                new_dir = 270
 
+            self.move_piece(self.selected_piece,new_dir)
+
+    def move_piece(self,piece,dir):
+        info_move = self.board.move(piece,dir)
+        if info_move[1]:  #regarde si le mouvement a pu se faire ou pas
+            print(self.board)
+            self.end_turn()
+        else :
+            self.ui.textBrowser.append("Tu ne peux pas faire ce mouvement")
+            self.choice_raz()
     def get_action(self):
         """
         return the action selected : 0 --> insert

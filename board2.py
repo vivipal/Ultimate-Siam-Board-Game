@@ -13,6 +13,11 @@ class Board(np.ndarray):
         """
         self.tour_elephant = True
 
+        self[2,1]=pion.Rocher(2,1)
+        self[2,2]=pion.Rocher(2,2)
+        self[2,3]=pion.Rocher(2,3)
+
+
     def __str__(self):
         """
         affichage simplifié du plateau de jeu
@@ -187,6 +192,8 @@ class Board(np.ndarray):
                         if type(pion_bouge)!=pion.Rocher and pion_win.orientation == direction:
                             W = [type(pion_win)]
 
+
+        self.update()
 
         return new_L, y, W
 
