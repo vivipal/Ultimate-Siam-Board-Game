@@ -50,7 +50,7 @@ class Pion():
 
     def move(self, direction):
         """
-        Fait avancer le pion dans la direction passé en paramètre (0,90,180,270)
+        Fait avancer le pion dans la direction précisée (0,90,180,270)
         """
         old_x = self.x
         old_y = self.y
@@ -64,22 +64,19 @@ class Pion():
             self.x = old_x - 1
 
 class Rocher(Pion):
-
     '''
     Classe representant les Rochers
     '''
 
     def __init__(self,x,y):
-
         super().__init__(x, y)
 
     def __str__(self) :
         return 'Rocher'
 
 class Animal(Pion):
-
     '''
-    Classe representatn les Animaux (Rhino/Elephant)
+    Classe representant les Animaux (Rhino/Elephant)
     '''
 
     def __init__(self,x,y,orientation,espece):
@@ -107,16 +104,13 @@ class Animal(Pion):
         self.__orientation = orientation
         self.espece = espece
 
-
     @property
     def orientation(self):
         return self.__orientation
 
-
     @orientation.setter
     def orientation(self,new_orientation):
         self.__orientation = new_orientation
-
 
     def turn(self, new_orientation):
         self.orientation = new_orientation
@@ -124,25 +118,18 @@ class Animal(Pion):
     def __str__(self):
         return self.espece
 
-
 class Rhino(Animal):
-
     '''
     Classe representant les Rhinoceros
     '''
 
     def __init__(self,x,y,orientation):
-
         super().__init__(x,y,orientation,'R')
 
-
-
 class Elephant(Animal):
-
     '''
     Classe representant les Elephant
     '''
 
     def __init__(self,x,y,orientation):
-
         super().__init__(x,y,orientation,'E')
