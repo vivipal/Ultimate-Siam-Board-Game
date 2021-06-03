@@ -74,7 +74,7 @@ class Rocher(Pion):
         super().__init__(x, y)
 
     def __str__(self) :
-        return 'rocher'
+        return 'Rocher'
 
 class Animal(Pion):
 
@@ -121,6 +121,8 @@ class Animal(Pion):
     def turn(self, new_orientation):
         self.orientation = new_orientation
 
+    def __str__(self):
+        return self.espece
 
 
 class Rhino(Animal):
@@ -133,8 +135,7 @@ class Rhino(Animal):
 
         super().__init__(x,y,orientation,'R')
 
-    def __str__(self):
-        return "rhino"
+
 
 class Elephant(Animal):
 
@@ -145,6 +146,3 @@ class Elephant(Animal):
     def __init__(self,x,y,orientation):
 
         super().__init__(x,y,orientation,'E')
-
-    def __str__(self):
-        return "eleph"

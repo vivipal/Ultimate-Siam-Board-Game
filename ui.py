@@ -12,10 +12,14 @@ class SiamGame(QtWidgets.QMainWindow):
 
         #connect menubar button_name
         self.ui.actionRecommencer_une_partie.triggered.connect(self.request_a_new_game_popup)
+        self.ui.actionImporter_une_partie.triggered.connect(self.load_save)
+        self.ui.actionSauvegarder_la_partie_en_cours.triggered.connect(self.save)
+
 
         #connect restart button
         self.ui.pushButton_restart.clicked.connect(self.new_game)
         self.ui.pushButton_restart.hide()
+
 
 
         #connect case button
@@ -89,6 +93,74 @@ class SiamGame(QtWidgets.QMainWindow):
         self.choice_raz()
 
 
+    def save(self):
+        """
+        écrit une sauvegarde qui pourra être réutilisé
+        voici un exemple de sauvegarde :
+
+            tour_elephant:True
+            nb_tour:9
+            R;0,3;orientation:180
+            Rocher;1,3
+            E;1,4;orientation:270
+            Rocher;2,1
+            Rocher;2,2
+            E;2,3;orientation:0
+            R;3,0;orientation:90
+            R;4,3;orientation:0
+
+        """
+
+        msg = ''
+        msg += "tour_elephant:{}\n".format(int(self.board.tour_elephant))
+        msg += "nb_tour:{}\n".format(self.board.nb_tour)
+        msg += self.ui.textBrowser.toPlainText().replace('\n',';')+"\n"
+        for pion in self.board.flatten() :
+            if pion != None :
+                msg += pion.__str__()
+                msg += ";{},{}".format(pion.x,pion.y)
+                if pion.__str__() != 'Rocher' :
+                    msg+= ';orientation:'
+                    msg += str(pion.orientation)
+                msg+='\n'
+        filename = QtWidgets.QFileDialog.getSaveFileName(self, 'Choose a file for the save', '', "Fichier texte (*.txt);;All Files (*)",)
+
+        with open(filename[0],'w') as f:
+            f.write(msg)
+
+    def load_save(self):
+        filename = QtWidgets.QFileDialog.getOpenFileName(self, 'Open your save', '',"Fichier texte (*.txt);;All Files (*)")
+
+        self.new_game()
+
+        with open(filename[0],'r') as f :
+            self.board.tour_elephant = bool(f.readline().split(':')[1])
+            self.board.nb_tour = int(f.readline().split(':')[1])
+            self.ui.textBrowser.setText(f.readline().replace(";","\n"))
+
+            import pion
+
+            for pions in f.readlines():
+                pions.replace('\n','')
+                pion_to_insert = pions.split(";")
+                name = pion_to_insert[0]
+                x,y = [int(i) for i in pion_to_insert[1].split(",")]
+                if name == 'Rocher':
+                    self.board.set_pion(pion.Rocher(x,y))
+                else :
+                    orientation  = int(pion_to_insert[2].split(':')[1])
+                    self.board.set_pion(pion.Animal(x,y,orientation,name))
+
+
+        self.update_ui()
+
+
+
+
+
+
+
+
     def request_a_new_game_popup(self):
 
         """
@@ -122,7 +194,7 @@ class SiamGame(QtWidgets.QMainWindow):
 
         self.choice_raz()
         self.uncheck_action_selector()
-        self.tour_elephant = True
+        self.board.tour_elephant = True
 
         #activer la selection d'action
         for i in range(self.ui.ActionSelector.count()):
@@ -158,7 +230,7 @@ class SiamGame(QtWidgets.QMainWindow):
 
         """
         cache tous les boutons inutile (choix direction et choix insertion)
-        et remet à NULL la variable de choix de piece
+        et remet à NULL les variables
         """
 
         #hide all optionnal buttons
@@ -389,7 +461,7 @@ class SiamGame(QtWidgets.QMainWindow):
             winner = info_move[2]
             new_pos = self.selected_piece.x,self.selected_piece.y
             if winner and self.board.nb_rocher()<3:
-                if str(winner[0])=='eleph':
+                if str(winner[0])=='E':
                     win = 'Eléphants'
                 else :
                     win = 'Rhinocéros'
