@@ -7,6 +7,10 @@ class Pion():
         '''
         Crée un pion aux coordonnées désirées
         '''
+
+        if x<0 or y<0 :
+            raise Exception("Invalid position: x and y must be > 0")
+
         self.__coords = x, y
 
     @property
@@ -100,6 +104,9 @@ class Animal(Pion):
 
 
         super().__init__(x,y)
+
+        if orientation not in (0,90,180,270):
+            raise Exception("Oriention should be 0,90,180 or 270")
 
         self.__orientation = orientation
         self.espece = espece
