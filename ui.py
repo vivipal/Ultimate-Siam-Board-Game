@@ -10,6 +10,13 @@ class SiamGame(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.board = board
 
+        #connect menubar button_name
+        self.ui.actionRecommencer_une_partie.triggered.connect(self.request_a_new_game_popup)
+
+        #connect restart button
+        self.ui.pushButton_restart.clicked.connect(self.new_game)
+        self.ui.pushButton_restart.hide()
+
 
         #connect case button
         self.ui.case00.clicked.connect(lambda : self.case_choice(self.ui.case00))
@@ -82,6 +89,41 @@ class SiamGame(QtWidgets.QMainWindow):
         self.choice_raz()
 
 
+    def request_a_new_game_popup(self):
+
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+
+        msg.setText("Etes vous sur de vouloir recommencer ?")
+        msg.setInformativeText("Si la partie n'est pas sauvegardé toutes les données seront perdus")
+        msg.setWindowTitle("Fin de partie ?")
+        msg.setStandardButtons((QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel))
+        msg.buttonClicked.connect(self.new_game)
+        msg.exec_()
+
+    def request_a_new_game(self,i):
+
+        if i.text()=='&OK':
+            self.new_game()
+        else :
+            pass
+
+    def new_game(self):
+
+        self.choice_raz()
+        self.uncheck_action_selector()
+        self.tour_elephant = True
+
+        #activer la selection d'action
+        for i in range(self.ui.ActionSelector.count()):
+            self.ui.ActionSelector.itemAt(i).widget().setEnabled(True)
+
+
+        self.ui.textBrowser.setText("Tour n°0 - Au tour des Elephants")
+
+        #placer les rochers
+        self.board.new_board()
+        self.update_ui()
 
     def case_choice(self,button):
 
@@ -284,11 +326,19 @@ class SiamGame(QtWidgets.QMainWindow):
                     elif button_name == 'left' :
                         new_dir = 270
                     old_pos = self.selected_piece.x,self.selected_piece.y
-                    new_pos = self.move_piece(self.selected_piece,new_dir)
+                    *new_pos,win = self.move_piece(self.selected_piece,new_dir)
+
+                    new_pos = new_pos[0]
 
                     if new_pos != None:
+
                         self.ui.textBrowser.append("Pion bougé de {},{} en {},{}".format(old_pos[0],old_pos[1],new_pos[0],new_pos[1]))
                         self.turn_after_move = True
+
+                        if win != None : # il y a un vainqueur
+                            self.ui.textBrowser.append("Les "+win+" ont gagnés")
+                            self.end_game(win)
+
                 else :
                     self.ui.textBrowser.append("Choisir la direction avec les cases prévus")
                     self.ui.textBrowser.append("Recommencez votre tour")
@@ -320,27 +370,33 @@ class SiamGame(QtWidgets.QMainWindow):
 
         return :
             - nouvelle position de la piece si le mouvement a pu se faire sinon retourne None
+            - str win : None/Elephant/Rhinoceros
         """
         info_move = self.board.move(piece,dir)
         if info_move[1]:  #regarde si le mouvement a pu se faire ou pas
 
+
+            win = None
             winner = info_move[2]
+            new_pos = self.selected_piece.x,self.selected_piece.y
             if winner and self.board.nb_rocher()<3:
                 if str(winner[0])=='eleph':
-                    self.ui.textBrowser.append("Les Eléphant ont gangés")
-                    self.end_game("Eléphant")
-                else :
-                    self.ui.textBrowser.append("Les Rhinocéros ont gangés")
-                    self.end_game("Rhinocéros")
+                    # self.ui.textBrowser.append("Les Eléphant ont gagnés")
+                    # self.end_game("Eléphants")
+                    win = 'Eléphants'
 
-            new_pos = self.selected_piece.x,self.selected_piece.y
+                else :
+                    # self.ui.textBrowser.append("Les Rhinocéros ont gagnés")
+                    # self.end_game("Rhinocéros")
+                    win = 'Rhinocéros'
+
             if len(info_move[0]) > 1 :
                 #si plus d'une seule piece a bouger alors on ne peut pas touner après
                 #car cela veut dire qu'on a poussé une pièce
                 self.end_turn()
             else:
                 print('now u can turn')
-            return new_pos
+            return new_pos,win
         else :
             self.ui.textBrowser.append("Tu ne peux pas faire ce mouvement")
             self.ui.textBrowser.append("Recommencez votre tour")
@@ -393,13 +449,23 @@ class SiamGame(QtWidgets.QMainWindow):
                 button.setIconSize(QtCore.QSize(70,70))
 
     def end_game(self,winner):
+        """
+        met fin a la partie en affichant le vainqueur
+        ensuite on peut consulter les logs de la partie mais les boutons d'action sont désactivés
+        """
 
-        self.board.clear()
         self.update_ui()
         self.choice_raz()
         self.uncheck_action_selector()
-        self.ui.textBrowser.setText("Tour n°0 - Au tour des Eléphants")
-        self.board.tour_elephant = True
+
+
+        #desactiver la selection d'action
+        for i in range(self.ui.ActionSelector.count()):
+            self.ui.ActionSelector.itemAt(i).widget().setDisabled(True)
+
+        #activer le boutton pour recommencer
+        self.ui.pushButton_restart.show()
+
 
 
         msg = QtWidgets.QMessageBox()

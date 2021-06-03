@@ -99,6 +99,18 @@ class Board(np.ndarray):
             for j in range(y):
                 self[i,j] = None
 
+    def new_board(self):
+        """
+        crée un nouveau plateau avec des rochers au milieu
+        """
+
+        self.clear()
+
+        self[2,1]=pion.Rocher(2,1)
+        self[2,2]=pion.Rocher(2,2)
+        self[2,3]=pion.Rocher(2,3)
+
+
     def update(self):
         """
         met à jour Board selon les nouvelles coordonnées des pions
@@ -242,7 +254,7 @@ class Board(np.ndarray):
             self.update()
             return p.x,p.y
         else :
-        
+
 
             return None
 

@@ -1225,6 +1225,25 @@
      <string notr="true">direction_insert</string>
     </attribute>
    </widget>
+   <widget class="QPushButton" name="pushButton_restart">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>550</y>
+      <width>131</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="text">
+     <string>Recommencer</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -1298,7 +1317,7 @@
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="direction_insert"/>
   <buttongroup name="direction_selector"/>
+  <buttongroup name="direction_insert"/>
  </buttongroups>
 </ui>
