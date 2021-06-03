@@ -311,7 +311,7 @@ class SiamGame(QtWidgets.QMainWindow):
         Si il manque un rocher sur le plateau alors on recpere le gagnant et on met fin à la partie
 
         return :
-            - nouvelle position de la piece si le mouvement a pu se faire
+            - nouvelle position de la piece si le mouvement a pu se faire sinon retourne (-1,-1)
         """
         info_move = self.board.move(piece,dir)
         if info_move[1]:  #regarde si le mouvement a pu se faire ou pas
