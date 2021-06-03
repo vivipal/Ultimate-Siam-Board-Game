@@ -101,7 +101,7 @@ class Board(np.ndarray):
 
     def new_board(self):
         """
-        crée un nouveau plateau avec des rochers au milieu
+        réinitialise le plateau et place des rochers au milieu
         """
 
         self.clear()
