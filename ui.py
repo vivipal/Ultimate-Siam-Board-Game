@@ -98,16 +98,16 @@ class SiamGame(QtWidgets.QMainWindow):
         écrit une sauvegarde qui pourra être réutilisé
         voici un exemple de sauvegarde :
 
-            tour_elephant:True
-            nb_tour:9
-            R;0,3;orientation:180
-            Rocher;1,3
-            E;1,4;orientation:270
+            tour_elephant:1
+            nb_tour:4
+            Tour n°0 - Au tour des Elephants;Pion inséré en 4,0;Tour fini;;----------------;;Tour n°1 - Au tour des Rhinocéros;Pion inséré en 1,4;Tour fini;;----------------;;Tour n°2 - Au tour des Elephants;Pion inséré en 0,0;Tour fini;;----------------;;Tour n°3 - Au tour des Rhinocéros;Choisissez l'orientation finale;Pion bougé de 1,4 en 0,4;Pion tourné en 0,4 vers 180;Tour fini;;----------------;;Tour n°4 - Au tour des Elephants
+            E;0,0;orientation:180
+            R;0,4;orientation:180
             Rocher;2,1
             Rocher;2,2
-            E;2,3;orientation:0
-            R;3,0;orientation:90
-            R;4,3;orientation:0
+            Rocher;2,3
+            E;4,0;orientation:0
+
 
         """
 
