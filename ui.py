@@ -505,7 +505,7 @@ class SiamGame(QtWidgets.QMainWindow):
             button = self.ui.Board.itemAtPosition(i//5,i%5).widget()
 
             if elm !=None :
-                img_path = "img/{}.jpeg".format(str(elm))
+                img_path = "img/{}.png".format(str(elm))
 
                 pixmap = QtGui.QPixmap(img_path)
 
@@ -520,7 +520,7 @@ class SiamGame(QtWidgets.QMainWindow):
                 button.setIconSize(QtCore.QSize(70,70))
             else :
 
-                pixmap = QtGui.QPixmap('img/ground.jpeg')
+                pixmap = QtGui.QPixmap('img/ground.png')
                 button.setIcon(QtGui.QIcon(pixmap))
                 button.setIconSize(QtCore.QSize(70,70))
 
