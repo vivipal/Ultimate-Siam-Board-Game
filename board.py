@@ -165,6 +165,9 @@ class Board(np.ndarray):
     def move(self,animal,direction):
         """
         fait bouger le pion dans la direction demandée, pousse les pions devant si possible
+
+
+
         """
         x = animal.x
         y = animal.y
@@ -201,6 +204,9 @@ class Board(np.ndarray):
         return new_L, y, W
 
     def insert(self,direction,x):
+        """
+        Virgile : return new pos or None if the insert is impossible
+        """
         if direction == 270:
             L = self[x,:][::-1].copy()
             y=4
@@ -236,9 +242,9 @@ class Board(np.ndarray):
             self.update()
             return p.x,p.y
         else :
-            print("-------------")
-            print("IMPOSSIBLE")
-            print("-------------")
+        
+
+            return None
 
 
         print(self)

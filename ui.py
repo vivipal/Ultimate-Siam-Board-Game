@@ -74,7 +74,7 @@ class SiamGame(QtWidgets.QMainWindow):
         self.ui.RButton_move_turn.toggled.connect(self.choose_move_turn_piece)
 
 
-        self.ui.textBrowser.setText("0 - Au tour des Elephants")
+        self.ui.textBrowser.setText("Tour n°0 - Au tour des Elephants")
 
         self.update_ui()
 
@@ -155,9 +155,9 @@ class SiamGame(QtWidgets.QMainWindow):
         self.ui.textBrowser.append("")
 
         if self.board.tour_elephant :
-            self.ui.textBrowser.append("{} - Au tour des Elephants".format(self.board.nb_tour))
+            self.ui.textBrowser.append("Tour n°{} - Au tour des Elephants".format(self.board.nb_tour))
         else :
-            self.ui.textBrowser.append("{} - Au tour des Rhinocéros".format(self.board.nb_tour))
+            self.ui.textBrowser.append("Tour n°{} - Au tour des Rhinocéros".format(self.board.nb_tour))
 
     def choose_insert(self):
 
@@ -203,6 +203,7 @@ class SiamGame(QtWidgets.QMainWindow):
                 self.ui.textBrowser.append("Recommencez votre tour")
 
                 self.choice_raz()
+                self.uncheck_action_selector()
                 return
         else :  #si une piece a été selectionné on regarde dans quelle direction la tourner et on la tourne
             button_name = button.objectName()
@@ -224,10 +225,16 @@ class SiamGame(QtWidgets.QMainWindow):
         on insert la piece et on  met fin au tour
         """
 
-        x,y = self.board.insert(dir,pos)
-        self.ui.textBrowser.append("Pion inséré en {},{}".format(x,y))
+        new_pos = self.board.insert(dir,pos)
 
-        self.end_turn()
+        if new_pos != None : # l'insertion a pu se faire
+            self.ui.textBrowser.append("Pion inséré en {},{}".format(new_pos[0],new_pos[1]))
+            self.end_turn()
+        else :
+            self.ui.textBrowser.append("Tu ne peux pas insérer une pièce ici")
+            self.ui.textBrowser.append("Recommencez votre tour")
+            self.choice_raz()
+            self.uncheck_action_selector()
 
     def turn_piece(self,piece,dir):
         """
@@ -279,13 +286,14 @@ class SiamGame(QtWidgets.QMainWindow):
                     old_pos = self.selected_piece.x,self.selected_piece.y
                     new_pos = self.move_piece(self.selected_piece,new_dir)
 
-                    if new_pos != (-1,-1):
+                    if new_pos != None:
                         self.ui.textBrowser.append("Pion bougé de {},{} en {},{}".format(old_pos[0],old_pos[1],new_pos[0],new_pos[1]))
                         self.turn_after_move = True
                 else :
                     self.ui.textBrowser.append("Choisir la direction avec les cases prévus")
                     self.ui.textBrowser.append("Recommencez votre tour")
                     self.choice_raz()
+                    self.uncheck_action_selector()
         else : # on a bougé on veut mtn la nouvelle direction
             button_name = button.objectName()
             try :
@@ -311,7 +319,7 @@ class SiamGame(QtWidgets.QMainWindow):
         Si il manque un rocher sur le plateau alors on recpere le gagnant et on met fin à la partie
 
         return :
-            - nouvelle position de la piece si le mouvement a pu se faire sinon retourne (-1,-1)
+            - nouvelle position de la piece si le mouvement a pu se faire sinon retourne None
         """
         info_move = self.board.move(piece,dir)
         if info_move[1]:  #regarde si le mouvement a pu se faire ou pas
@@ -337,6 +345,9 @@ class SiamGame(QtWidgets.QMainWindow):
             self.ui.textBrowser.append("Tu ne peux pas faire ce mouvement")
             self.ui.textBrowser.append("Recommencez votre tour")
             self.choice_raz()
+            self.uncheck_action_selector()
+
+            return None
 
 
     def get_action(self):
@@ -387,7 +398,7 @@ class SiamGame(QtWidgets.QMainWindow):
         self.update_ui()
         self.choice_raz()
         self.uncheck_action_selector()
-        self.ui.textBrowser.setText("0 - Au tour des Eléphants")
+        self.ui.textBrowser.setText("Tour n°0 - Au tour des Eléphants")
         self.board.tour_elephant = True
 
 
