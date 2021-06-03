@@ -1248,7 +1248,7 @@
     <property name="title">
      <string>Jeu</string>
     </property>
-    <addaction name="actionRecommecer_une_partie"/>
+    <addaction name="actionRecommencer_une_partie"/>
    </widget>
    <addaction name="menuFichier"/>
    <addaction name="menuJeu"/>
@@ -1272,7 +1272,7 @@
     <string>Ctrl+Q</string>
    </property>
   </action>
-  <action name="actionRecommecer_une_partie">
+  <action name="actionRecommencer_une_partie">
    <property name="text">
     <string>Recommencer une partie</string>
    </property>
