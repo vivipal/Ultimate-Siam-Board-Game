@@ -277,10 +277,11 @@ class SiamGame(QtWidgets.QMainWindow):
                     elif button_name == 'left' :
                         new_dir = 270
                     old_pos = self.selected_piece.x,self.selected_piece.y
-                    self.move_piece(self.selected_piece,new_dir)
-                    self.ui.textBrowser.append("Pion bougé de {},{} en {},{}".format(old_pos[0],old_pos[1],self.selected_piece.x,self.selected_piece.y))
+                    new_pos = self.move_piece(self.selected_piece,new_dir)
 
-                    self.turn_after_move = True
+                    if new_pos != (-1,-1):
+                        self.ui.textBrowser.append("Pion bougé de {},{} en {},{}".format(old_pos[0],old_pos[1],new_pos[0],new_pos[1]))
+                        self.turn_after_move = True
                 else :
                     self.ui.textBrowser.append("Choisir la direction avec les cases prévus")
                     self.ui.textBrowser.append("Recommencez votre tour")
@@ -306,7 +307,11 @@ class SiamGame(QtWidgets.QMainWindow):
     def move_piece(self,piece,dir):
         """
         Bouge une piece si le mouvement peut se faire
-        Si il manque un rocher alors on recpere le gagnabt et on met fin à la partie
+        Si il ne peut pas tourner apres avoir bouger alors on met fin au tour
+        Si il manque un rocher sur le plateau alors on recpere le gagnant et on met fin à la partie
+
+        return :
+            - nouvelle position de la piece si le mouvement a pu se faire
         """
         info_move = self.board.move(piece,dir)
         if info_move[1]:  #regarde si le mouvement a pu se faire ou pas
@@ -320,13 +325,19 @@ class SiamGame(QtWidgets.QMainWindow):
                     self.ui.textBrowser.append("Les Rhinocéros ont gangés")
                     self.end_game("Rhinocéros")
 
-
-
-            print("move done now y have to turn")
+            new_pos = self.selected_piece.x,self.selected_piece.y
+            if len(info_move[0]) > 1 :
+                #si plus d'une seule piece a bouger alors on ne peut pas touner après
+                #car cela veut dire qu'on a poussé une pièce
+                self.end_turn()
+            else:
+                print('now u can turn')
+            return new_pos
         else :
             self.ui.textBrowser.append("Tu ne peux pas faire ce mouvement")
             self.ui.textBrowser.append("Recommencez votre tour")
             self.choice_raz()
+
 
     def get_action(self):
         """
