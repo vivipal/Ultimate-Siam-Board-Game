@@ -91,6 +91,10 @@ class SiamGame(QtWidgets.QMainWindow):
 
     def request_a_new_game_popup(self):
 
+        """
+        Ouvre une popup pour demander si le joueur est sur de vouloir recommencer une nvl partie
+        """
+
         msg = QtWidgets.QMessageBox()
         msg.setIcon(QtWidgets.QMessageBox.Information)
 
@@ -102,6 +106,9 @@ class SiamGame(QtWidgets.QMainWindow):
         msg.exec_()
 
     def request_a_new_game(self,i):
+        """
+        Si l'utilisateur a appuyé sur ok on recommence une partie
+        """
 
         if i.text()=='&OK':
             self.new_game()
@@ -109,6 +116,9 @@ class SiamGame(QtWidgets.QMainWindow):
             pass
 
     def new_game(self):
+        """
+        reinitialise pour lancer une nouvelle partie
+        """
 
         self.choice_raz()
         self.uncheck_action_selector()
@@ -284,7 +294,6 @@ class SiamGame(QtWidgets.QMainWindow):
         """
 
         piece.turn(dir)
-        print(self.board)
         self.ui.textBrowser.append("Pion tourné en {},{} vers {}".format(self.selected_piece.x,self.selected_piece.y,dir))
         self.end_turn()
 
@@ -381,13 +390,8 @@ class SiamGame(QtWidgets.QMainWindow):
             new_pos = self.selected_piece.x,self.selected_piece.y
             if winner and self.board.nb_rocher()<3:
                 if str(winner[0])=='eleph':
-                    # self.ui.textBrowser.append("Les Eléphant ont gagnés")
-                    # self.end_game("Eléphants")
                     win = 'Eléphants'
-
                 else :
-                    # self.ui.textBrowser.append("Les Rhinocéros ont gagnés")
-                    # self.end_game("Rhinocéros")
                     win = 'Rhinocéros'
 
             if len(info_move[0]) > 1 :
@@ -395,7 +399,7 @@ class SiamGame(QtWidgets.QMainWindow):
                 #car cela veut dire qu'on a poussé une pièce
                 self.end_turn()
             else:
-                print('now u can turn')
+                self.ui.textBrowser.append("Choisissez l'orientation finale")
             return new_pos,win
         else :
             self.ui.textBrowser.append("Tu ne peux pas faire ce mouvement")

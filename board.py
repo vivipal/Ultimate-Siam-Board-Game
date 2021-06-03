@@ -259,7 +259,6 @@ class Board(np.ndarray):
             return None
 
 
-        print(self)
 
     def move_check_delete_none(self,L):
         """
