@@ -1,6 +1,6 @@
 import unittest
 
-from pion import Rocher, Rhino
+from pion import Animal, Rhino
 
 
 class TestRhino(unittest.TestCase):
@@ -19,6 +19,13 @@ class TestRhino(unittest.TestCase):
         self.assertEqual(rhino.orientation,180)
         self.assertEqual(rhino.espece,'R')
 
+    def testAnimal(self):
+        """
+        Test si un rhinocéros est bien un animal
+        """
+
+        r = Rhino(5, 1, 0)
+        self.assertIsInstance(r, Animal)
 
 
     def testInitWrongPosition(self):
