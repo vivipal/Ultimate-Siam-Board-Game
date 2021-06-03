@@ -1235,13 +1235,70 @@
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFichier">
+    <property name="title">
+     <string>Fichier</string>
+    </property>
+    <addaction name="actionImporter_une_partie"/>
+    <addaction name="actionSauvegarder_la_partie_en_cours"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuitter"/>
+   </widget>
+   <widget class="QMenu" name="menuJeu">
+    <property name="title">
+     <string>Jeu</string>
+    </property>
+    <addaction name="actionRecommecer_une_partie"/>
+   </widget>
+   <addaction name="menuFichier"/>
+   <addaction name="menuJeu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionImporter_une_partie">
+   <property name="text">
+    <string>Importer une partie</string>
+   </property>
+  </action>
+  <action name="actionSauvegarder_la_partie_en_cours">
+   <property name="text">
+    <string>Sauvegarder la partie en cours</string>
+   </property>
+  </action>
+  <action name="actionQuitter">
+   <property name="text">
+    <string>Quitter</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionRecommecer_une_partie">
+   <property name="text">
+    <string>Recommencer une partie</string>
+   </property>
+  </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionQuitter</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>444</x>
+     <y>316</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
  <buttongroups>
-  <buttongroup name="direction_selector"/>
   <buttongroup name="direction_insert"/>
+  <buttongroup name="direction_selector"/>
  </buttongroups>
 </ui>
