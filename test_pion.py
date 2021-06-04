@@ -38,7 +38,7 @@ class TestRhino(unittest.TestCase):
             b=Rhino(-3,-1,0)
             c=Rhino(-1,4,0)
 
-    def testInitWrongPosition(self):
+    def testInitWrongOrientation(self):
         """
         Test de l'initialisation d'une pièce avec une orientation impossible
         """
