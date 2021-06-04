@@ -102,6 +102,7 @@ class TestBoard(unittest.TestCase):
         b[1,4] = pion.Rhino(3,3,90)
         b[1,1] = pion.Rhino(2,4,0)
         b[2,4] = pion.Elephant(1,4,180)
+        b[4,4] = pion.Rhino(4,5,90) #pion qui doit etre supprimé
 
         # normalement les pions sont bien replacé
         b.update()
