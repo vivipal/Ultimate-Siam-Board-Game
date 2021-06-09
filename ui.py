@@ -130,14 +130,14 @@ class SiamGame(QtWidgets.QMainWindow):
     def load_save(self):
         filename = QtWidgets.QFileDialog.getOpenFileName(self, 'Open your save', '',"Fichier texte (*.txt);;All Files (*)")
 
-        print(self.board)
 
         self.new_game()
 
 
 
         with open(filename[0],'r') as f :
-            self.board.tour_elephant = bool(f.readline().split(':')[1])
+            self.board.tour_elephant = bool(int(f.readline().split(':')[1]))
+            print(self.board.tour_elephant)
             self.board.nb_tour = int(f.readline().split(':')[1])
             self.ui.textBrowser.setText(f.readline().replace(";","\n"))
 
@@ -152,13 +152,11 @@ class SiamGame(QtWidgets.QMainWindow):
                     self.board.set_pion(pion.Rocher(x,y))
                 else :
                     orientation  = int(pion_to_insert[2].split(':')[1])
-                    print(pion.Animal(x,y,orientation,name))
                     if name == 'E':
                         self.board.set_pion(pion.Elephant(x,y,orientation))
                     else :
                         self.board.set_pion(pion.Rhino(x,y,orientation))
 
-        print(self.board)
 
         self.update_ui()
 
@@ -416,14 +414,22 @@ class SiamGame(QtWidgets.QMainWindow):
                     elif button_name == 'left' :
                         new_dir = 270
                     old_pos = self.selected_piece.x,self.selected_piece.y
-                    *new_pos,win = self.move_piece(self.selected_piece,new_dir)
+                    *new_pos,win,pushed = self.move_piece(self.selected_piece,new_dir)
 
                     new_pos = new_pos[0]
 
                     if new_pos != None:
 
                         self.ui.textBrowser.append("Pion bougé de {},{} en {},{}".format(old_pos[0],old_pos[1],new_pos[0],new_pos[1]))
-                        self.turn_after_move = True
+
+                        if not pushed :
+                            self.ui.textBrowser.append("Choisissez l'orientation finale")
+                            self.turn_after_move = True
+
+                        else :
+                            self.end_turn()
+
+
 
                         if win != None : # il y a un vainqueur
                             self.ui.textBrowser.append("Les "+win+" ont gagnés")
@@ -476,12 +482,11 @@ class SiamGame(QtWidgets.QMainWindow):
                     win = 'Rhinocéros'
 
             if len(info_move[0]) > 1 :
-                #si plus d'une seule piece a bouger alors on ne peut pas touner après
-                #car cela veut dire qu'on a poussé une pièce
-                self.end_turn()
+                #si on a poussé une piece
+                pushed = True
             else:
-                self.ui.textBrowser.append("Choisissez l'orientation finale")
-            return new_pos,win
+                pushed = False
+            return new_pos,win,pushed
         else :
             self.ui.textBrowser.append("Tu ne peux pas faire ce mouvement")
             self.ui.textBrowser.append("Recommencez votre tour")
