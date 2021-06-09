@@ -132,6 +132,7 @@ class SiamGame(QtWidgets.QMainWindow):
 
 
         self.new_game()
+        self.board.clear()
 
 
 
