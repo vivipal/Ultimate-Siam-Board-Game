@@ -422,7 +422,12 @@ class SiamGame(QtWidgets.QMainWindow):
 
                         self.ui.textBrowser.append("Pion bougé de {},{} en {},{}".format(old_pos[0],old_pos[1],new_pos[0],new_pos[1]))
 
+
                         if not pushed :
+
+                            for i in range(self.ui.ActionSelector.count()):
+                                self.ui.ActionSelector.itemAt(i).widget().setDisabled(True)
+
                             self.ui.textBrowser.append("Choisissez l'orientation finale")
                             self.turn_after_move = True
 
@@ -452,6 +457,8 @@ class SiamGame(QtWidgets.QMainWindow):
                 elif button_name == 'left' :
                     new_dir = 270
                 self.turn_piece(self.selected_piece,new_dir)
+                for i in range(self.ui.ActionSelector.count()):
+                    self.ui.ActionSelector.itemAt(i).widget().setDisabled(False)
             except :
                 self.ui.textBrowser.append("Vous decvez choisir l'orientation final pour finir votre tour")
 
