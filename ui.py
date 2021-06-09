@@ -41,7 +41,6 @@ class SiamGame(QtWidgets.QMainWindow):
         self.ui.case30.clicked.connect(lambda : self.case_choice(self.ui.case30))
         self.ui.case31.clicked.connect(lambda : self.case_choice(self.ui.case31))
         self.ui.case32.clicked.connect(lambda : self.case_choice(self.ui.case32))
-        self.ui.case33.clicked.connect(lambda : self.case_choice(self.ui.case33))
         self.ui.case34.clicked.connect(lambda : self.case_choice(self.ui.case34))
         self.ui.case40.clicked.connect(lambda : self.case_choice(self.ui.case40))
         self.ui.case41.clicked.connect(lambda : self.case_choice(self.ui.case41))
@@ -131,7 +130,11 @@ class SiamGame(QtWidgets.QMainWindow):
     def load_save(self):
         filename = QtWidgets.QFileDialog.getOpenFileName(self, 'Open your save', '',"Fichier texte (*.txt);;All Files (*)")
 
+        print(self.board)
+
         self.new_game()
+
+
 
         with open(filename[0],'r') as f :
             self.board.tour_elephant = bool(f.readline().split(':')[1])
@@ -149,8 +152,13 @@ class SiamGame(QtWidgets.QMainWindow):
                     self.board.set_pion(pion.Rocher(x,y))
                 else :
                     orientation  = int(pion_to_insert[2].split(':')[1])
-                    self.board.set_pion(pion.Animal(x,y,orientation,name))
+                    print(pion.Animal(x,y,orientation,name))
+                    if name == 'E':
+                        self.board.set_pion(pion.Elephant(x,y,orientation))
+                    else :
+                        self.board.set_pion(pion.Rhino(x,y,orientation))
 
+        print(self.board)
 
         self.update_ui()
 
@@ -195,6 +203,7 @@ class SiamGame(QtWidgets.QMainWindow):
         self.choice_raz()
         self.uncheck_action_selector()
         self.board.tour_elephant = True
+        self.board.nb_tour = 0
 
         #activer la selection d'action
         for i in range(self.ui.ActionSelector.count()):
