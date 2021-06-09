@@ -137,7 +137,6 @@ class SiamGame(QtWidgets.QMainWindow):
 
         with open(filename[0],'r') as f :
             self.board.tour_elephant = bool(int(f.readline().split(':')[1]))
-            print(self.board.tour_elephant)
             self.board.nb_tour = int(f.readline().split(':')[1])
             self.ui.textBrowser.setText(f.readline().replace(";","\n"))
 
